@@ -62,7 +62,7 @@ def main(argv):
         print "WARNING: Numbers of trajectories not necessarily the same as in file names. Please make sure that " \
               "trajectories are used in ascending order by mmpbsa to ensure correct numbering."
 
-        ga
+
         # the histogram of the data
         n, bins, patches = plt.hist(var, 30, normed=1, facecolor='green', alpha=0.75)
 

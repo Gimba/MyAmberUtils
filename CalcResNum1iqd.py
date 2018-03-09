@@ -21,6 +21,32 @@ import sys
 __author__ = 'Martin Rosellen'
 __docformat__ = "restructuredtext en"
 
+res_codes = {}
+res_codes['ALA'] = 'A'
+res_codes['ARG'] = 'R'
+res_codes['ASN'] = 'N'
+res_codes['ASP'] = 'D'
+res_codes['CYS'] = 'C'
+res_codes['CYX'] = 'C'
+res_codes['GLU'] = 'E'
+res_codes['GLN'] = 'Q'
+res_codes['GLY'] = 'G'
+res_codes['HIS'] = 'H'
+res_codes['HIE'] = 'H'
+res_codes['HID'] = 'H'
+res_codes['HIP'] = 'H'
+res_codes['ILE'] = 'I'
+res_codes['LEU'] = 'L'
+res_codes['LYS'] = 'K'
+res_codes['MET'] = 'M'
+res_codes['PHE'] = 'F'
+res_codes['PRO'] = 'P'
+res_codes['SER'] = 'S'
+res_codes['THR'] = 'T'
+res_codes['TRP'] = 'W'
+res_codes['TYR'] = 'Y'
+res_codes['VAL'] = 'V'
+
 def main(argv):
     parser = argparse.ArgumentParser(description='Convert a given residue number from 1iqd.pdb '
                                                  'to '
@@ -30,7 +56,29 @@ def main(argv):
 
     args = parser.parse_args()
 
-    convert(args.number)
+    if args.number[0].isalpha():
+        convert_chain(args.number)
+    else:
+        convert(args.number)
+
+def convert_chain(number):
+    chain = number[0]
+    residue = int(number[1:])
+
+    if chain == 'A':
+        out = residue + 155
+    elif chain == 'B':
+        if int(residue) <= 82:
+            out = residue + 367
+        elif int(residue) == 83:
+            out = "451,452,453"
+        else:
+            out = residue + 370
+    elif chain == 'C':
+        out = residue - 2173
+
+    print str(out)
+
 
 def convert(number):
     number = int(number)
@@ -65,6 +113,20 @@ def convert(number):
         #     elif chain == "B":
         #         out = str(number + 367) + " B"
     print out
+
+    residues = {}
+
+    with open('/d/as2/u/rm001/InputFiles/1iqd_residues.dat', 'r') as f:
+        content = f.readlines()
+        for line in content:
+            temp = line.split()
+
+            name = temp[1] + temp[2]
+            residues[name] = temp[0]
+
+    print res_codes[residues[out]] + out[1:]
+
     return str(out)
+
 if __name__ == "__main__":
     main(sys.argv)
