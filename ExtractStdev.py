@@ -42,9 +42,9 @@ def main(argv):
             if stdev and angle:
                 angles[angle] = stdev
     if "short" in angles_file:
-        outfile = "angles_extracted_short.dat"
+        outfile = "angles_stdevs_short.dat"
     else:
-        outfile = "angles_extracted_prod.dat"
+        outfile = "angles_stdevs_prod.dat"
 
     with open(outfile, 'w') as o:
         for key, value in angles.items():
