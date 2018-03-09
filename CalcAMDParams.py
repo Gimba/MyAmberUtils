@@ -35,6 +35,7 @@ def main(argv):
     file = args.out_file
 
     n_atoms = 0
+    n_res = 156
     ethreshp = 0
     ethreshd = 0
     alphad = 0
