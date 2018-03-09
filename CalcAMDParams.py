@@ -53,7 +53,7 @@ def main(argv):
                 eptot = avg_line[-1]
                 dihed = avg_line = content[line_counter+4].split()[-1]
 
-    res_cal = 3.5 * 156
+    res_cal = 3.5 * n_res
 
     alphad = int(0.2 * res_cal)
     ethreshd = int(res_cal + float(dihed))
