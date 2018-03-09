@@ -53,5 +53,17 @@ def main(argv):
                 eptot = avg_line[-1]
                 dihed = avg_line = content[line_counter+4].split()[-1]
 
+    res_cal = 3.5 * 156
+
+    alphad = int(0.2 * res_cal)
+    ethreshd = int(res_cal + float(dihed))
+
+    alphap = int(0.2 * int(n_atoms))
+    ethreshp = int(float(eptot) + alphap)
+
+    print alphad
+    print ethreshd
+    print alphap
+    print ethreshp
 if __name__ == "__main__":
     main(sys.argv)
