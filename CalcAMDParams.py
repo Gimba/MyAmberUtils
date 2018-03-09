@@ -42,10 +42,15 @@ def main(argv):
 
     with open(file, 'r') as f:
         content = f.readlines()
-
+        line_counter = 0
         for line in content:
+            line_counter += 1
             if "NATOM" in line:
                 n_atoms = line.split()[2]
+            if "      A V E R A G E S   O V E R     " in line:
+                avg_line = content[line_counter+3].split()
+                eptot = avg_line[-1]
+                dihed = avg_line = content[line_counter+4].split()[-1]
 
 if __name__ == "__main__":
     main(sys.argv)
