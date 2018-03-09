@@ -34,7 +34,18 @@ def main(argv):
 
     file = args.out_file
 
-    print file
+    n_atoms = 0
+    ethreshp = 0
+    ethreshd = 0
+    alphad = 0
+    alphap = 0
+
+    with open(file, 'r') as f:
+        content = f.readlines()
+
+        for line in content:
+            if "NATOM" in line:
+                n_atoms = line.split()[2]
 
 if __name__ == "__main__":
     main(sys.argv)
