@@ -29,6 +29,12 @@ def main(argv):
     parser.add_argument('regex', help='regular expression that tells where residues can be found.')
     args = parser.parse_args()
 
+    regex = args.regex
+
+    mapping = args.mapping
+
+    file = args.file
+
 
 if __name__ == "__main__":
     main(sys.argv)
