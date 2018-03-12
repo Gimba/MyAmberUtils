@@ -20,21 +20,23 @@
 
 import sys
 import argparse
+import re
 
 def main(argv):
     parser = argparse.ArgumentParser(description='Exchange the residue numbers in the given file with the ones from the '
                                                  'reference mapping. The regex further restricts replacing positions')
     parser.add_argument('file', help='data where residue numbers should be exchanged')
     parser.add_argument('mapping', help='residue number mapping file')
-    parser.add_argument('regex', help='regular expression that tells where residues can be found.')
+    parser.add_argument('precedent', help='term that specifies what comes before a residue number')
+    parser.add_argument('subsequent', help='term that specifies what comes after a residue number')
     args = parser.parse_args()
-
-    regex = args.regex
 
     mapping = args.mapping
 
     file = args.file
 
+    precedent = args.precedent
+    subsequent = args.subsequent
 
     mappings = {}
     with open(mapping, 'r') as f:
@@ -43,6 +45,15 @@ def main(argv):
             if len(line) > 1:
                 temp = line.split()
                 mappings[temp[0]] = temp[1]
+
+    resdiue_numbers = []
+    with open(file, 'r') as g:
+        content = g.readlines()
+
+        for line in content:
+            m = re.search('(?<=' + precedent + ')(.*?)(?=[' + subsequent +'])', line)
+            resdiue_numbers.append(m.group(0))
+
 
 if __name__ == "__main__":
     main(sys.argv)
