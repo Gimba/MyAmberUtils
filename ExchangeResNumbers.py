@@ -28,7 +28,8 @@ def main(argv):
     parser.add_argument('mapping', help='residue number mapping file')
     parser.add_argument('precedent', help='term that specifies what comes before a residue number')
     parser.add_argument('subsequent', help='term that specifies what comes after a residue number')
-    parser.add_argument('-c', '--column', nargs="?", help='option to add column identifiers')
+    parser.add_argument('-c', '--column', action='store_true', help='option to add column identifiers')
+    parser.add_argument('-t', '--type', action='store_true', help='output amino acid type')
     parser.add_argument('-o', '--output', nargs="?", help='output file name (optional)')
     parser.add_argument('-x', '--overwrite', action='store_true', help='option to overwrite original file')
     args = parser.parse_args()
@@ -54,16 +55,31 @@ def main(argv):
     else:
         column = 0
 
+    if args.type:
+        type = 1
+    else:
+        type = 0
+
+
     mappings = {}
     with open(mapping, 'r') as f:
         content = f.readlines()
         for line in content:
             if len(line) > 1:
                 temp = line.split()
+                to = precedent
+
+                if type:
+                    to += temp[3]
+
+                to += temp[1]
+
                 if column:
-                    mappings[precedent + temp[0] + subsequent] = precedent + temp[1] + "|" + temp[2] + subsequent
-                else:
-                    mappings[precedent + temp[0] + subsequent] = precedent + temp[1] + subsequent
+                    to += "|" + temp[2]
+
+                to += subsequent
+
+                mappings[precedent + temp[0] + subsequent] = to
 
     out = ""
     with open(file, 'r') as g:
