@@ -62,5 +62,9 @@ def main(argv):
                     out += line.replace(res, map)
 
 
+    with open(out_file, 'w') as k:
+        k.write(out)
+
+
 if __name__ == "__main__":
     main(sys.argv)
