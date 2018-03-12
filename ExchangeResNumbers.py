@@ -44,15 +44,15 @@ def main(argv):
         for line in content:
             if len(line) > 1:
                 temp = line.split()
-                mappings[temp[0]] = temp[1]
+                mappings[precedent + temp[0] + subsequent] = precedent + temp[1] + subsequent
 
-    resdiue_numbers = []
+    out = ""
     with open(file, 'r') as g:
         content = g.readlines()
-
         for line in content:
-            m = re.search('(?<=' + precedent + ')(.*?)(?=[' + subsequent +'])', line)
-            resdiue_numbers.append(m.group(0))
+            for res, map in mappings.items():
+                if res in line:
+                    out += line.replace(res, map)
 
 
 if __name__ == "__main__":
