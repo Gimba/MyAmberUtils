@@ -36,5 +36,13 @@ def main(argv):
     file = args.file
 
 
+    mappings = {}
+    with open(mapping, 'r') as f:
+        content = f.readlines()
+        for line in content:
+            if len(line) > 1:
+                temp = line.split()
+                mappings[temp[0]] = temp[1]
+
 if __name__ == "__main__":
     main(sys.argv)
