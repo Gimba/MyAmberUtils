@@ -30,6 +30,7 @@ def main(argv):
     parser.add_argument('subsequent', help='term that specifies what comes after a residue number')
     parser.add_argument('-c', '--column', nargs="?", help='option to add column identifiers')
     parser.add_argument('-o', '--output', nargs="?", help='output file name (optional)')
+    parser.add_argument('-x', '--overwrite', action='store_true', help='option to overwrite original file')
     args = parser.parse_args()
 
     mapping = args.mapping
@@ -44,6 +45,9 @@ def main(argv):
     else:
         temp = file.split(".")
         out_file = "".join(temp[:-1]) + "_labeled." + temp[-1]
+
+    if args.overwrite:
+        out_file = file
 
     if args.column:
         column = 1
