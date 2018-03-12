@@ -20,7 +20,6 @@
 
 import sys
 import argparse
-import re
 
 def main(argv):
     parser = argparse.ArgumentParser(description='Exchange the residue numbers in the given file with the ones from the '
@@ -29,7 +28,8 @@ def main(argv):
     parser.add_argument('mapping', help='residue number mapping file')
     parser.add_argument('precedent', help='term that specifies what comes before a residue number')
     parser.add_argument('subsequent', help='term that specifies what comes after a residue number')
-    parser.add_argument('output', nargs="?", help='output file name (optional)')
+    parser.add_argument('-c', '--column', nargs="?", help='option to add column identifiers')
+    parser.add_argument('-o', '--output', nargs="?", help='output file name (optional)')
     args = parser.parse_args()
 
     mapping = args.mapping
@@ -39,11 +39,16 @@ def main(argv):
     precedent = args.precedent
     subsequent = args.subsequent
 
-    if len(sys.argv) > 5:
+    if args.output:
         out_file = args.output
     else:
         temp = file.split(".")
         out_file = "".join(temp[:-1]) + "_labeled." + temp[-1]
+
+    if args.column:
+        column = 1
+    else:
+        column = 0
 
     mappings = {}
     with open(mapping, 'r') as f:
@@ -51,7 +56,10 @@ def main(argv):
         for line in content:
             if len(line) > 1:
                 temp = line.split()
-                mappings[precedent + temp[0] + subsequent] = precedent + temp[1] + subsequent
+                if column:
+                    mappings[precedent + temp[0] + subsequent] = precedent + temp[1] + "|" + temp[2] + subsequent
+                else:
+                    mappings[precedent + temp[0] + subsequent] = precedent + temp[1] + subsequent
 
     out = ""
     with open(file, 'r') as g:
@@ -64,7 +72,6 @@ def main(argv):
 
     with open(out_file, 'w') as k:
         k.write(out)
-
 
 if __name__ == "__main__":
     main(sys.argv)
