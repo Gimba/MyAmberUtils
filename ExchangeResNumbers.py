@@ -29,6 +29,7 @@ def main(argv):
     parser.add_argument('mapping', help='residue number mapping file')
     parser.add_argument('precedent', help='term that specifies what comes before a residue number')
     parser.add_argument('subsequent', help='term that specifies what comes after a residue number')
+    parser.add_argument('output', nargs="?", help='output file name (optional)')
     args = parser.parse_args()
 
     mapping = args.mapping
@@ -37,6 +38,12 @@ def main(argv):
 
     precedent = args.precedent
     subsequent = args.subsequent
+
+    if len(sys.argv) > 5:
+        out_file = args.output
+    else:
+        temp = file.split(".")
+        out_file = "".join(temp[:-1]) + "_labeled." + temp[-1]
 
     mappings = {}
     with open(mapping, 'r') as f:
