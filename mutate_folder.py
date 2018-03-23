@@ -25,5 +25,43 @@ __docformat__ = "restructuredtext en"
 def main(argv):
     dir = os.path.split(os.getcwd())
 
+    resnum = dir[1][1:5]
+
+    resnum = convert(resnum)
+
+
+def convert(number):
+    number = int(number)
+    out = ""
+    # to 1iqd numbering
+
+    # C2 domain residues
+    if number < 157:
+        out = 'C' + str(number + 2173)
+    # BO2C11 light chain A (2 - 212)
+    elif 157 <= number <= 367:
+        out = 'A' + str(number - 155)
+    # BO2C11 heavy chain B (1 - 83)
+    elif 368 <= number <= 450:
+        out = 'B' + str(number - 367)
+    # BO2C11 light chain B residue 83 is followed by 83A, 83B, 83C
+    elif number == 451:
+        out = 'B' + "83A"
+    elif number == 452:
+        out = 'B' + "83B"
+    elif number == 453:
+        out = 'B' + "83C"
+    # BO2C11 heavy chain B (84 - 212)
+    elif 455 <= number <= 582:
+        out = 'B' + str(number - 370)
+    # other direction
+    elif number > 2173:
+        out = number - 2173
+
+    return str(out)
+
+
 if __name__ == "__main__":
     main(sys.argv)
+
+
