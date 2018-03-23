@@ -25,9 +25,17 @@ __docformat__ = "restructuredtext en"
 def main(argv):
     dir = os.path.split(os.getcwd())
 
-    resnum = dir[1][1:5]
+    dir = dir[1]
+    resnum = dir[1:5]
 
     resnum = convert(resnum)
+
+    init = dir[0]
+    mutate = dir[5]
+
+    pdb = "WT_prod_20.pdb"
+
+    print os.system("mutate C " + init + resnum + mutate + " " + pdb + " 1 156")
 
 
 def convert(number):
