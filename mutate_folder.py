@@ -15,6 +15,7 @@
 # COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
 # OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
+import os
 import sys
 
 __author__ = 'Martin Rosellen'
@@ -22,7 +23,7 @@ __docformat__ = "restructuredtext en"
 
 
 def main(argv):
-    pass
+    dir = os.path.split(os.getcwd())
 
 if __name__ == "__main__":
     main(sys.argv)
