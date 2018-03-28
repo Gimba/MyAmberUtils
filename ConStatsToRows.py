@@ -23,20 +23,55 @@ __docformat__ = "restructuredtext en"
 
 import sys
 import os
+from collections import defaultdict
+
 
 def main(argv):
 
     file_ends = "guani_47_stat.dat"
     contact_files = []
+    order = []
 
     for root, dirs, files in os.walk("."):
         for name in files:
             if name.endswith(file_ends):
                 contact_files.append(str(os.path.join(root, name)))
+                order.append(name.split("_")[0])
+
+    contact_files.sort()
+    order.sort()
+
+    contacts = []
 
     for file in contact_files:
         with open(file, 'r') as f:
             content = f.readlines()
 
+            for i in range(1,len(content)):
+                contacts.append(content[i].split()[1])
+
+    contacts = list(set(contacts))
+
+    resorted = {}
+
+    for item in contacts:
+        resorted[item] = [0]*len(order)
+
+
+    n = 0
+    for fl in contact_files:
+        with open(fl, 'r') as f:
+            content = f.readlines()
+
+            for l in content[1:]:
+                temp = l.split()
+                res = temp[1]
+                cnt = temp[3]
+                # print(resorted[res][n])
+                print(n)
+                resorted[res][n] = cnt
+        n += 1
+    print(resorted)
+    print(order)
 if __name__ == "__main__":
     main(sys.argv)
