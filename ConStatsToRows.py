@@ -34,5 +34,9 @@ def main(argv):
             if name.endswith(file_ends):
                 contact_files.append(str(os.path.join(root, name)))
 
+    for file in contact_files:
+        with open(file, 'r') as f:
+            content = f.readlines()
+
 if __name__ == "__main__":
     main(sys.argv)
