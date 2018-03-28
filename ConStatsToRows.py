@@ -22,10 +22,17 @@ __author__ = 'Martin Rosellen'
 __docformat__ = "restructuredtext en"
 
 import sys
-import numpy
+import os
 
 def main(argv):
-    pass
+
+    file_ends = "guani_47_stat.dat"
+    contact_files = []
+
+    for root, dirs, files in os.walk("."):
+        for name in files:
+            if name.endswith(file_ends):
+                contact_files.append(str(os.path.join(root, name)))
 
 if __name__ == "__main__":
     main(sys.argv)
