@@ -57,7 +57,16 @@ def main(argv):
             if temp[0] in table_dict.keys():
                 table_dict[temp[0]].append(temp[1])
 
-    print(table_dict)
+    # sort out table rows that have no corresponding row in column file
+    last = table_dict.items()[0]
+    for item in table_dict.items():
+        if len(item[1]) > len(last[1]):
+            table_dict.pop(last[0])
+            last = item
+
+        elif len(item[1]) < len(last[1]):
+            table_dict.pop(item[0])
+
 
 if __name__ == "__main__":
     main(sys.argv)
