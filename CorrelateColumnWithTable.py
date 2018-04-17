@@ -37,22 +37,27 @@ def main(argv):
     table_file = args.table_file
     outfile = args.outfile
 
-    column_dict = {}
+    table_dict = {}
+    with open(table_file, 'r') as t:
+        content = t.readlines()
 
+        # first row specifies column headers
+        column_headers = content[0]
+
+        for line in content[1:]:
+            temp = line.split()
+            table_dict[temp[0]] = temp [1:]
+
+    # append data from column file using the keys specified in the first column
     with open(column_file, 'r') as c:
         content = c.readlines()
 
         for line in content:
             temp = line.split()
-            column_dict[temp[0]] = temp[1]
+            if temp[0] in table_dict.keys():
+                table_dict[temp[0]].append(temp[1])
 
-    table_dict = {}
-    with open(table_file, 'r') as t:
-        content = t.readlines()
-
-        for line in content:
-            temp = line.split()
-            table_dict[temp[0]] = temp [1:]
+    print(table_dict)
 
 if __name__ == "__main__":
     main(sys.argv)
