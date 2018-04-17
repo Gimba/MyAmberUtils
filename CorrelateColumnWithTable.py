@@ -37,6 +37,22 @@ def main(argv):
     table_file = args.table_file
     outfile = args.outfile
 
+    column_dict = {}
+
+    with open(column_file, 'r') as c:
+        content = c.readlines()
+
+        for line in content:
+            temp = line.split()
+            column_dict[temp[0]] = temp[1]
+
+    table_dict = {}
+    with open(table_file, 'r') as t:
+        content = t.readlines()
+
+        for line in content:
+            temp = line.split()
+            table_dict[temp[0]] = temp [1:]
 
 if __name__ == "__main__":
     main(sys.argv)
