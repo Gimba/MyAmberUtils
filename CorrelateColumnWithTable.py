@@ -67,6 +67,11 @@ def main(argv):
         elif len(item[1]) < len(last[1]):
             table_dict.pop(item[0])
 
+    # extract master column (the column we want to correlate all other columns with)
+    master_column = []
+    for value in table_dict.values():
+        master_column.append(value[-1])
+
 
 if __name__ == "__main__":
     main(sys.argv)
