@@ -68,10 +68,20 @@ def main(argv):
                 res = temp[1]
                 cnt = temp[3]
                 # print(resorted[res][n])
-                print(n)
                 resorted[res][n] = cnt
         n += 1
-    print(resorted)
-    print(order)
+
+    out = [[0] + order]
+
+
+    for key, value in resorted.items():
+        out.append([key] + value)
+
+    print(out)
+
+    out = list(map(list, zip(*out)))
+
+    print(out)
+
 if __name__ == "__main__":
     main(sys.argv)
