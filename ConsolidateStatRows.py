@@ -30,10 +30,12 @@ def main(argv):
     parser = argparse.ArgumentParser(description='Consolidate rows from a statistic files created by cpptraj')
     parser.add_argument('file_ending', help='name endings of files containing angle values, e.g. ("_contacts.dat")')
     parser.add_argument('outfile', help='output file')
+    parser.add_argument('column', help='number of column that should be extracted, (first column = 1)')
 
     args = parser.parse_args()
     file_ends = args.file_ending
     outfile = args.outfile
+    column = int(args.column) - 1
     contact_files = []
     order = []
 
@@ -71,7 +73,7 @@ def main(argv):
             for l in content[1:]:
                 temp = l.split()
                 res = temp[1]
-                cnt = temp[3]
+                cnt = temp[column]
                 # print(resorted[res][n])
                 resorted[res][n] = cnt
         n += 1
