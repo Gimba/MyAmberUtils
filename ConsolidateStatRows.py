@@ -21,14 +21,19 @@
 __author__ = 'Martin Rosellen'
 __docformat__ = "restructuredtext en"
 
-import sys
+import argparse
 import os
-from collections import defaultdict
+import sys
 
 
 def main(argv):
+    parser = argparse.ArgumentParser(description='Consolidate rows from a statistic files created by cpptraj')
+    parser.add_argument('file_ending', help='name endings of files containing angle values, e.g. ("_contacts.dat")')
+    parser.add_argument('outfile', help='output file')
 
-    file_ends = "guani_47_stat.dat"
+    args = parser.parse_args()
+    file_ends = args.file_ending
+    outfile = args.outfile
     contact_files = []
     order = []
 
@@ -77,11 +82,12 @@ def main(argv):
     for key, value in resorted.items():
         out.append([key] + value)
 
-    print(out)
-
     out = list(map(list, zip(*out)))
 
-    print(out)
+    with open(outfile, 'w') as o:
+        for item in out:
+            o.write(''.join(str(e) + " " for e in item))
+            o.write("\n")
 
 if __name__ == "__main__":
     main(sys.argv)
