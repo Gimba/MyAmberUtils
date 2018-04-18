@@ -62,9 +62,6 @@ def main(argv):
             if temp[0] in table_dict.keys():
                 table_dict[temp[0]].append(temp[1])
 
-    # add column header for appended data
-    column_headers.append('master column')
-
     # sort out table rows that have no corresponding row in column file
     last = table_dict.items()[0]
     for item in table_dict.items():
@@ -82,8 +79,9 @@ def main(argv):
     # extract master column (the column we want to correlate all other columns with)
     master_column = lh.c_get(table, -1)
 
+    out = "residue\tr-value\tp-value\n"
     # calculate correlations
-    for i in range(len(table[0])):
+    for i in range(len(table[0])-1):
         selected_column = lh.c_get(table, i)
 
         # check if column only contains 0s (this can happen when the only entry that contains a value other than 0 gets
@@ -92,6 +90,12 @@ def main(argv):
             continue
 
         corr = pearsonr(master_column, selected_column)
+
+        out += column_headers[i+1] + "\t" + str(round(corr[0],2)) + "\t" + str(round(corr[1],2)) + "\n"
+
+    with open(outfile, 'w') as o:
+        o.writelines(out)
+
 
 if __name__ == "__main__":
     main(sys.argv)
