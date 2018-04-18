@@ -18,6 +18,10 @@
 import argparse
 import sys
 
+from scipy.stats.stats import pearsonr
+
+import ListHelper as lh
+
 __author__ = 'Martin Rosellen'
 __docformat__ = "restructuredtext en"
 
@@ -42,8 +46,9 @@ def main(argv):
         content = t.readlines()
 
         # first row specifies column headers
-        column_headers = content[0]
+        column_headers = content[0].split()
 
+        # add values to row headers
         for line in content[1:]:
             temp = line.split()
             table_dict[temp[0]] = temp [1:]
@@ -57,6 +62,9 @@ def main(argv):
             if temp[0] in table_dict.keys():
                 table_dict[temp[0]].append(temp[1])
 
+    # add column header for appended data
+    column_headers.append('master column')
+
     # sort out table rows that have no corresponding row in column file
     last = table_dict.items()[0]
     for item in table_dict.items():
@@ -67,11 +75,23 @@ def main(argv):
         elif len(item[1]) < len(last[1]):
             table_dict.pop(item[0])
 
-    # extract master column (the column we want to correlate all other columns with)
-    master_column = []
-    for value in table_dict.values():
-        master_column.append(value[-1])
+    # convert dictionnary values to 2D list(table)
+    table = lh.dict_to_2D_list(table_dict)
+    table = [[float(i) for i in nested] for nested in table]
 
+    # extract master column (the column we want to correlate all other columns with)
+    master_column = lh.c_get(table, -1)
+
+    # calculate correlations
+    for i in range(len(table[0])):
+        selected_column = lh.c_get(table, i)
+
+        # check if column only contains 0s (this can happen when the only entry that contains a value other than 0 gets
+        # removed from the dictionnary in the 'sort out table rows that have no corresponding ...' step)
+        if all(p == 0.0 for p in selected_column):
+            continue
+
+        corr = pearsonr(master_column, selected_column)
 
 if __name__ == "__main__":
     main(sys.argv)
