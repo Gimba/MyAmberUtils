@@ -30,7 +30,7 @@ def main(argv):
     parser = argparse.ArgumentParser(description='Calculate correlation between given energies and the angle '
                                                  'values in the files specified by the "file_ending" argument. The '
                                                  'number of energy values must be the same as the number of files '
-                                                 'that are in the folder and or subfolder of the working directory of '
+                                                 'that are in the folder and/or subfolder of the working directory of '
                                                  'the script (e.g. CorrelationEnergyAngles.py is started from a '
                                                  'folder that contains 6 subfolders, each subfolder contains one file '
                                                  'with the given ending. As a consequence there have to be 6 energy '

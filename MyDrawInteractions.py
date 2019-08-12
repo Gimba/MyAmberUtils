@@ -102,7 +102,7 @@ def main(argv):
     compare_thresh = 0.5 if args.compare_thresh is None else float(args.compare_thresh)
 
     if args.annotate_change and not args.compare_file:
-        print 'annotate_change option is only valid when comparing files.'
+        print('annotate_change option is only valid when comparing files.')
         quit()
 
     surface = cairo.PDFSurface(args.output, WIDTH, HEIGHT)
@@ -278,7 +278,7 @@ def read_hbond_file(hbond_file, energies, hbonds, thresh):
                     key = row[0] + row[1]
 
                 if key not in energies:
-                    print 'Warning: hbond between %s and %s but no corresponding energy value.' % (row[0], row[1])
+                    print('Warning: hbond between %s and %s but no corresponding energy value.' % (row[0], row[1]))
                 else:
                     hbonds[key] = row[2]
 
@@ -298,8 +298,9 @@ def read_decomp_file(decomp, energies, res_with_energy, residue_ids, is_compare_
                         if int(nid) == num:
                             if is_compare_file:
                                 subs[res] = residue_id
-                            else:
-                                print 'Warning: control file id %s does not agree with decomp table id %s' % (residue_id, res)
+                            # else:
+                                # print('Warning: control file id %s does not agree with decomp table id %s' % ()
+                                # residue_id, res)
 
 
         for row in reader:
@@ -321,7 +322,7 @@ def read_decomp_file(decomp, energies, res_with_energy, residue_ids, is_compare_
                     else:
                         for r in (res1, res2):
                             if r not in residue_ids and r not in warned:
-                                print 'Warning: %s has interaction energies but is not listed in the control file.' % r
+                                print('Warning: %s has interaction energies but is not listed in the control file.' % r)
                                 warned.append(r)
 
 
@@ -447,16 +448,16 @@ def check_res(id, legend):
         return
     leg = decode_res(legend)
     if leg == 'X':
-        print 'Warning: invalid residue code in (%s, %s)' % (id, legend)
+        print('Warning: invalid residue code in (%s, %s)' % (id, legend))
         return
     
     loc = id.split()[0]
     if loc not in res_codes:
-        print 'Warning: invalid location code in (%s, %s)' % (id, legend)
+        print('Warning: invalid location code in (%s, %s)' % (id, legend))
         return
     
     if res_codes[loc] != leg:
-        print 'Warning: three-letter and single-letter codes do not agree in (%s, %s)' % (id, legend)
+        print('Warning: three-letter and single-letter codes do not agree in (%s, %s)' % (id, legend))
 
 # Find the column containing a residue
 

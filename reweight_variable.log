@@ -1,0 +1,83 @@
+============================================================
+PyReweighting: Python scripts used to reweight accelerated 
+               and scaled molecular dynamics simulations.
+  
+Authors: Yinglong Miao <yinglong.miao@gmail.com>
+         Bill Sinko <wsinko@gmail.com>
+  
+Last Update: Dec 30, 2014
+
+Citations:  
+1. Sinko W, Miao Y, de Oliveira CAF, McCammon JA (2013) Population Based Reweighting of Scaled Molecular Dynamics. The Journal of Physical Chemistry B 117(42):12759-12768. 
+2. Miao Y, Sinko W, Pierce L, Bucher D, Walker RC, McCammon JA (2014) Improved reweighting of accelerated molecular dynamics simulations for free energy calculation. J Chemical Theory and Computation. 10(7): 2677-2689.
+ 
+DATA LOADED:    pca_amd_out.dat
+============================================================
+PyReweighting: Python scripts used to reweight accelerated 
+               and scaled molecular dynamics simulations.
+  
+Authors: Yinglong Miao <yinglong.miao@gmail.com>
+         Bill Sinko <wsinko@gmail.com>
+  
+Last Update: Dec 30, 2014
+
+Citations:  
+1. Sinko W, Miao Y, de Oliveira CAF, McCammon JA (2013) Population Based Reweighting of Scaled Molecular Dynamics. The Journal of Physical Chemistry B 117(42):12759-12768. 
+2. Miao Y, Sinko W, Pierce L, Bucher D, Walker RC, McCammon JA (2014) Improved reweighting of accelerated molecular dynamics simulations for free energy calculation. J Chemical Theory and Computation. 10(7): 2677-2689.
+ 
+DATA LOADED:    pca_amd_out.dat
+dV all: avg =  53.82403455 std =  8.91580223082
+pmf_min-c1 =  -60.3820411948
+pmf_min-c2 =  -139.479860929
+pmf_min-c3 =  -97820.9015488
+[-10.0, 10.0, 10.0, -10.0]
+FIGURE SAVED 2D_Free_energy_surface.png
+FIGURE SAVED weights.png
+ 
+END
+============================================================
+PyReweighting: Python scripts used to reweight accelerated 
+               and scaled molecular dynamics simulations.
+  
+Authors: Yinglong Miao <yinglong.miao@gmail.com>
+         Bill Sinko <wsinko@gmail.com>
+  
+Last Update: Dec 30, 2014
+
+Citations:  
+1. Sinko W, Miao Y, de Oliveira CAF, McCammon JA (2013) Population Based Reweighting of Scaled Molecular Dynamics. The Journal of Physical Chemistry B 117(42):12759-12768. 
+2. Miao Y, Sinko W, Pierce L, Bucher D, Walker RC, McCammon JA (2014) Improved reweighting of accelerated molecular dynamics simulations for free energy calculation. J Chemical Theory and Computation. 10(7): 2677-2689.
+ 
+DATA LOADED:    pca_amd_out.dat
+dV all: avg =  53.82403455 std =  8.91580223082
+pmf_min-c1 =  -60.3820411948
+pmf_min-c2 =  -139.479860929
+pmf_min-c3 =  -97820.9015488
+[-100.0, 10.0, 100.0, -100.0]
+FIGURE SAVED 2D_Free_energy_surface.png
+FIGURE SAVED weights.png
+ 
+END
+============================================================
+PyReweighting: Python scripts used to reweight accelerated 
+               and scaled molecular dynamics simulations.
+  
+Authors: Yinglong Miao <yinglong.miao@gmail.com>
+         Bill Sinko <wsinko@gmail.com>
+  
+Last Update: Dec 30, 2014
+
+Citations:  
+1. Sinko W, Miao Y, de Oliveira CAF, McCammon JA (2013) Population Based Reweighting of Scaled Molecular Dynamics. The Journal of Physical Chemistry B 117(42):12759-12768. 
+2. Miao Y, Sinko W, Pierce L, Bucher D, Walker RC, McCammon JA (2014) Improved reweighting of accelerated molecular dynamics simulations for free energy calculation. J Chemical Theory and Computation. 10(7): 2677-2689.
+ 
+DATA LOADED:    pca_amd_out.dat
+dV all: avg =  53.82403455 std =  8.91580223082
+pmf_min-c1 =  -60.3820411948
+pmf_min-c2 =  -139.479860929
+pmf_min-c3 =  -97820.9015488
+[-100.0, 100.0, 100.0, -100.0]
+FIGURE SAVED 2D_Free_energy_surface.png
+FIGURE SAVED weights.png
+ 
+END

@@ -77,7 +77,7 @@ def convert_chain(number):
     elif chain == 'C':
         out = residue - 2173
 
-    print str(out)
+    print(str(out))
 
 
 def convert(number):
@@ -112,7 +112,7 @@ def convert(number):
         #         out = str(number + 155) + " A"
         #     elif chain == "B":
         #         out = str(number + 367) + " B"
-    print out
+    print(out)
 
     residues = {}
 
@@ -124,7 +124,7 @@ def convert(number):
             name = temp[1] + temp[2]
             residues[name] = temp[0]
 
-    print res_codes[residues[out]] + out[1:]
+    print(res_codes[residues[out]] + out[1:])
 
     return str(out)
 

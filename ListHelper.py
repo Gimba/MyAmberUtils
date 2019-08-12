@@ -49,3 +49,10 @@ def c_del(lst, column):
         outlist.append(outitem)
 
     return outlist
+
+# make a 2D list(table) filled with dictionnary values(keys not included)
+def dict_to_2D_list(dict):
+    lst = []
+    for item in dict.items():
+        lst.append(item[1])
+    return lst

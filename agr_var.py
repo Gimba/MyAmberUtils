@@ -1,34 +1,60 @@
 #! /usr/bin/env python
 
-import numpy
 import sys
 import argparse
+import glob
+from numpy import arange, array, ones, linalg, mean, var
+# from matplotlib.pyplot import plot, show
 
 def main(argv):
-    parser = argparse.ArgumentParser(description='Calculate the variance in values from a .agr file')
+    parser = argparse.ArgumentParser(description='Calculate the variance and mean of values from a .agr file')
     parser.add_argument('file', help='file name')
-
     args = parser.parse_args()
+    fls = glob.glob(args.file)
+    for f in fls:
+        f = open(args.file, "r")
+        content = f.readlines()
 
-    f = open(args.file, "r")
-    content = f.readlines()
+        temp_values = []
 
-    content = [item for item in content if '@' not in item]
+        for line in content:
+            if "legend" in line and "[" in line:
+                name = line.split()[3].replace("\"", "")
+                if temp_values:
+                    print("mean: " + str(mean(temp_values)))
+                    print("variance: " + str(var(temp_values)))
+                    xi = arange(0, len(temp_values))
+                    A = array([xi, ones(len(temp_values))])
+                    # linearly generated sequence
+                    w = linalg.lstsq(A.T, temp_values)[0]  # obtaining the parameters
 
-    content = [item.split()[1] for item in content]
+                    print('a: {0:02f}'.format(w[0]))
+                    print('b: {0:02f}'.format(w[1]))
 
-    content = [float(item) for item in content]
+                    temp_values = []
+                print(name)
 
-    content.pop(0)
+            if '@' not in line and '#' not in line:
+                temp_values.append(float(line.split()[1]))
 
-    print numpy.var(content)
+        if temp_values:
+            print("mean: " + str(mean(temp_values)))
+            print("variance: " + str(var(temp_values)))
+            xi = arange(0, len(temp_values))
+            A = array([xi, ones(len(temp_values))])
+            # linearly generated sequence
+            w = linalg.lstsq(A.T, temp_values)[0]  # obtaining the parameters
 
-    out_file = args.file.replace(".agr", "_var.dat")
+            print('a: {0:02f}'.format(w[0]))
+            print('b: {0:02f}'.format(w[1]))
 
-    o = open(out_file, "w")
+            # plotting the line
+            # line = w[0] * xi + w[1]  # regression line
+            # plot(xi, line, 'r-', xi, temp_values, ' ')
+            # show()
 
-    o.write(str(numpy.var(content)))
-
+        print("\n")
 
 if __name__ == "__main__":
     main(sys.argv)
+

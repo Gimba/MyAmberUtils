@@ -1,0 +1,14 @@
+#Bridging Solute Residues:
+Bridge Res 397:THR  421:GLU , 57 frames.
+Bridge Res 397:THR  398:GLU , 47 frames.
+Bridge Res 419:ASP  421:GLU , 38 frames.
+Bridge Res 420:PRO  421:GLU , 14 frames.
+Bridge Res 42:ARG  398:GLU , 10 frames.
+Bridge Res 419:ASP  422:SER , 7 frames.
+Bridge Res 397:THR  420:PRO , 6 frames.
+Bridge Res 42:ARG  421:GLU , 3 frames.
+Bridge Res 398:GLU  421:GLU , 3 frames.
+Bridge Res 42:ARG  397:THR , 2 frames.
+Bridge Res 42:ARG  397:THR  421:GLU , 1 frames.
+Bridge Res 397:THR  398:GLU  421:GLU , 1 frames.
+Bridge Res 419:ASP  421:GLU  422:SER , 1 frames.

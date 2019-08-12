@@ -17,6 +17,7 @@
 
 import argparse
 import sys
+import pytraj as pt
 
 def main(argv):
     parser = argparse.ArgumentParser(description='Script to check for hydrogen binding between watermolecules between 2 given residue masks.')
@@ -24,6 +25,16 @@ def main(argv):
     parser.add_argument('trajin', help='trajectory')
     parser.add_argument('mask1', help='mask 1')
     parser.add_argument('mask2', help='mask 2')
+
+    args = parser.parse_args()
+    traj = pt.iterload(args.trajin, args.parm)
+    # print(traj)
+    #
+    # traj = pt.datafiles.load_tz2_ortho()
+    # print(traj)
+    # print(pt.native_contacts(traj, mask=':42', include_solvent=True))
+    print(pt.native_contacts(traj, mask=':42', mask2=":WAT", distance=1.0, include_solvent=True))
+    # print(water_contacts)
 
 
 if __name__ == '__main__':
