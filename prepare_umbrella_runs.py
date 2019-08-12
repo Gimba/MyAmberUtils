@@ -3,7 +3,7 @@
 
 # Copyright (c) 2018 Martin Rosellen
 
-# Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
+# Permission is hereby granted, free of charge, to any person obtaining a
 # documentation files (the "Software"), to deal in the Software without restriction, including without limitation the
 # rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit
 # persons to whom the Software is furnished to do so, subject to the following conditions:
@@ -23,7 +23,7 @@ from os.path import basename
 
 def main(args):
     parser = argparse.ArgumentParser(description='Prepare config files for umbrella sampling run.')
-    parser.add_argument('aaf', help='list like: "atoms_1,angle_1_from,angle_1_to,force_1:atoms_2,angle_2_from,'
+    parser.add_argument('raf', help='list like: "residues_1,angle_1_from,angle_1_to,force_1:residues_2,angle_2_from,'
                                     'angle_2_to,force_2:..."')
     parser.add_argument('umbrellas', help='how many umbrella do we want to span?')
     parser.add_argument('init', help='names of initial structures, e.g. "rel_3.rst,prod_1.rst"')
@@ -36,7 +36,7 @@ def main(args):
     configs_directory = "umbrella_config/"
 
     # there is possibly more than one angle that gets transformed
-    atoms_angles_force = args.aaf.split('|')
+    residues_angles_force = args.raf.split('|')
 
     # angle increments contains the step size for every configuration
     angle_increments = []
@@ -44,16 +44,17 @@ def main(args):
     # contains [[atom1,atom2,...][angle1,angle2][force]]
     umbrella_configs = []
 
-    for cnfg_arguments in atoms_angles_force:
+    # read input arguments into variables
+    for cnfg_arguments in residues_angles_force:
         cnfg_arguments = re.sub('\'|\"', '', cnfg_arguments)
 
-        atoms, angles, force = cnfg_arguments.split(':')
+        residues, angles, force = cnfg_arguments.split(':')
 
         angles = angles.split(',')
         angles = map(float, angles)
 
         umbrella_config = []
-        umbrella_config.append(atoms)
+        umbrella_config.append(residues)
         umbrella_config.append(angles)
         umbrella_config.append(force)
         umbrella_configs.append(umbrella_config)
@@ -76,8 +77,8 @@ def main(args):
 
             out += " &rst\n"
 
-            atoms = umbrella_configs[i][0]
-            out += "  iat=" + atoms + ",\n"
+            residues = umbrella_configs[i][0]
+            out += "  iat=" + residues + ",\n"
 
             angle_low_bound = umbrella_configs[i][1][0] - 180
             angle = umbrella_configs[i][1][0]
