@@ -1,4 +1,3 @@
-# #!/usr/bin/perl -w
 # ! /usr/bin/env python
 
 # Copyright (c) 2018 Martin Rosellen
@@ -198,7 +197,7 @@ def main(args):
                 "pmemd.cuda -O " \
                 "-i {} " \
                 "-o umbrella_productions/{}.out " \
-                "-p {} " \
+                "-p {}.prmtop " \
                 "-c umbrella_productions/{}.rst " \
                 "-r umbrella_productions/{}.rst " \
                 "-inf umbrella_productions/{}.mdinfo " \
@@ -211,7 +210,7 @@ def main(args):
                 "pmemd.cuda -O " \
                 "-i {} " \
                 "-o umbrella_productions/{}.out " \
-                "-p {} " \
+                "-p {}.prmtop " \
                 "-c umbrella_productions/{}.rst " \
                 "-r umbrella_productions/{}.rst " \
                 "-inf umbrella_productions/{}.mdinfo " \
@@ -224,7 +223,7 @@ def main(args):
                 "pmemd.cuda -O " \
                 "-i {} " \
                 "-o umbrella_productions/{}.out " \
-                "-p {} " \
+                "-p {}.prmtop " \
                 "-c umbrella_productions/{}.rst " \
                 "-r umbrella_productions/{}.rst " \
                 "-inf umbrella_productions/{}.mdinfo " \
@@ -237,7 +236,7 @@ def main(args):
                 "pmemd.cuda -O " \
                 "-i {} " \
                 "-o umbrella_productions/{}.out " \
-                "-p {} " \
+                "-p {}.prmtop " \
                 "-c umbrella_productions/{}.rst " \
                 "-r umbrella_productions/{}.rst " \
                 "-inf umbrella_productions/{}.mdinfo " \
