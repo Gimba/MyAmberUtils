@@ -66,7 +66,7 @@ def main(args):
         print(residues)
         top, traj = i_file.split(',')
         pdb = pt.load(traj, top)
-        atoms = [str(pt.select_atoms(':' + k + '@CA', pdb.top)[0]) for k in residues.split(',')]
+        atoms = [str(pt.select_atoms(':' + k + '@CA', pdb.top)[0] + 1) for k in residues.split(',')]
         print(atoms)
         umbrella_config = []
         umbrella_config.append(atoms)
