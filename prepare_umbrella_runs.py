@@ -197,7 +197,7 @@ def main(args):
                 "pmemd.cuda -O " \
                 "-i {} " \
                 "-o umbrella_productions/{}.out " \
-                "-p {}.prmtop " \
+                "-p {} " \
                 "-c umbrella_productions/{}.rst " \
                 "-r umbrella_productions/{}.rst " \
                 "-inf umbrella_productions/{}.mdinfo " \
@@ -210,7 +210,7 @@ def main(args):
                 "pmemd.cuda -O " \
                 "-i {} " \
                 "-o umbrella_productions/{}.out " \
-                "-p {}.prmtop " \
+                "-p {} " \
                 "-c umbrella_productions/{}.rst " \
                 "-r umbrella_productions/{}.rst " \
                 "-inf umbrella_productions/{}.mdinfo " \
@@ -223,7 +223,7 @@ def main(args):
                 "pmemd.cuda -O " \
                 "-i {} " \
                 "-o umbrella_productions/{}.out " \
-                "-p {}.prmtop " \
+                "-p {} " \
                 "-c umbrella_productions/{}.rst " \
                 "-r umbrella_productions/{}.rst " \
                 "-inf umbrella_productions/{}.mdinfo " \
@@ -236,7 +236,7 @@ def main(args):
                 "pmemd.cuda -O " \
                 "-i {} " \
                 "-o umbrella_productions/{}.out " \
-                "-p {}.prmtop " \
+                "-p {} " \
                 "-c umbrella_productions/{}.rst " \
                 "-r umbrella_productions/{}.rst " \
                 "-inf umbrella_productions/{}.mdinfo " \
