@@ -1,4 +1,3 @@
-# #!/usr/bin/perl -w
 # ! /usr/bin/env python
 
 # Copyright (c) 2018 Martin Rosellen
@@ -203,7 +202,7 @@ def main(args):
                 "-r umbrella_productions/{}.rst " \
                 "-inf umbrella_productions/{}.mdinfo " \
                 "-ref umbrella_productions/{}.rst \n" \
-                    .format(md_files[idx + umbrellas],top, b_name_rel_1, b_name_min, b_name_rel_1, b_name_rel_1, \
+                    .format(md_files[idx + umbrellas], b_name_rel_1, top, b_name_min, b_name_rel_1, b_name_rel_1, \
                                                         b_name_min)
 
             b_name_rel_2 = basename(md_files[idx + umbrellas * 2]).split('.')[0]
