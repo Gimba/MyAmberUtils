@@ -1,5 +1,5 @@
 # #!/usr/bin/perl -w
-#! /usr/bin/env python
+# ! /usr/bin/env python
 
 # Copyright (c) 2018 Martin Rosellen
 
@@ -20,15 +20,17 @@ import sys, argparse
 import re
 from os.path import basename
 
+
 def main(args):
     parser = argparse.ArgumentParser(description='Prepare config files for umbrella sampling run.')
     parser.add_argument('aaf', help='list like: "atoms_1,angle_1_from,angle_1_to,force_1:atoms_2,angle_2_from,'
                                     'angle_2_to,force_2:..."')
     parser.add_argument('umbrellas', help='how many umbrella do we want to span?')
     parser.add_argument('init', help='names of initial structures, e.g. "rel_3.rst,prod_1.rst"')
-    parser.add_argument('-s', action='store_true', help='define weather the last frame of each simulation is used for the next one as a start. In this case there should be only one init file')
+    parser.add_argument('-s', action='store_true',
+                        help='define weather the last frame of each simulation is used for the next one as a start. '
+                             'In this case there should be only one init file')
     args = parser.parse_args()
-
 
     umbrellas = int(args.umbrellas)
     configs_directory = "umbrella_config/"
@@ -43,13 +45,12 @@ def main(args):
     umbrella_configs = []
 
     for cnfg_arguments in atoms_angles_force:
+        cnfg_arguments = re.sub('\'|\"', '', cnfg_arguments)
 
-        cnfg_arguments = re.sub('\'|\"','', cnfg_arguments)
-
-        atoms,angles,force = cnfg_arguments.split(':')
+        atoms, angles, force = cnfg_arguments.split(':')
 
         angles = angles.split(',')
-        angles = map(float,angles)
+        angles = map(float, angles)
 
         umbrella_config = []
         umbrella_config.append(atoms)
@@ -57,7 +58,7 @@ def main(args):
         umbrella_config.append(force)
         umbrella_configs.append(umbrella_config)
 
-        angle_increments.append(abs(umbrella_config[1][0]-umbrella_config[1][1])/umbrellas)
+        angle_increments.append(abs(umbrella_config[1][0] - umbrella_config[1][1]) / umbrellas)
 
     umbrella_constraint_files = []
     n_cnfgs = len(umbrella_configs)
@@ -73,18 +74,18 @@ def main(args):
         out = "Harmonic restraints\n"
         for i in range(n_cnfgs):
 
-            out +=" &rst\n"
+            out += " &rst\n"
 
             atoms = umbrella_configs[i][0]
-            out +="  iat=" + atoms + ",\n"
+            out += "  iat=" + atoms + ",\n"
 
-            angle_low_bound = umbrella_configs[i][1][0]-180
+            angle_low_bound = umbrella_configs[i][1][0] - 180
             angle = umbrella_configs[i][1][0]
-            angle_high_bound = umbrella_configs[i][1][0]+180
-            out += "  r1={}, r2={}, r3={}, r4={}\n".format(angle_low_bound, angle,angle, angle_high_bound)
+            angle_high_bound = umbrella_configs[i][1][0] + 180
+            out += "  r1={}, r2={}, r3={}, r4={}\n".format(angle_low_bound, angle, angle, angle_high_bound)
 
             force = umbrella_configs[i][2]
-            out+="  rk2={}, rk3={}\n/\n".format(force, force)
+            out += "  rk2={}, rk3={}\n/\n".format(force, force)
 
             meta_out += '../umbrella_productions/prod_25C_{}.dat {} 0.12184\n'.format(c, angle)
 
@@ -103,24 +104,23 @@ def main(args):
     with open(configs_directory + 'meta_file', 'w') as mf:
         mf.write(meta_out)
 
-
     ## generate simulation configurations with umbrella constraints
 
     # initial/template configuration files
     sim_configuration_files = ['/d/as2/u/rm001/InputFiles/sim_config/min_1.umbin',
-                '/d/as2/u/rm001/InputFiles/sim_config/rel_1.umbin',
-                '/d/as2/u/rm001/InputFiles/sim_config/rel_2_25C.umbin',
-                '/d/as2/u/rm001/InputFiles/sim_config/rel_3_25C.umbin','/d/as2/u/rm001/InputFiles/sim_config/prod_25C.umbin']
+                               '/d/as2/u/rm001/InputFiles/sim_config/rel_1.umbin',
+                               '/d/as2/u/rm001/InputFiles/sim_config/rel_2_25C.umbin',
+                               '/d/as2/u/rm001/InputFiles/sim_config/rel_3_25C.umbin',
+                               '/d/as2/u/rm001/InputFiles/sim_config/prod_25C.umbin']
 
     md_files = []
     for init_f in sim_configuration_files:
 
-        with open(init_f,'r') as m:
+        with open(init_f, 'r') as m:
             sim_config_content = m.readlines()
 
         # add umbrella constraints to simulation configuration
-        for i,f in enumerate(umbrella_constraint_files):
-
+        for i, f in enumerate(umbrella_constraint_files):
 
             if "prod_25C" in init_f:
 
@@ -138,11 +138,9 @@ def main(args):
 
             # write simulation configuration file
             sim_file_name = basename(init_f).split('.')
-            with open(configs_directory + sim_file_name[0] + "_" + str(i) + "." + sim_file_name[1],'w') as o:
+            with open(configs_directory + sim_file_name[0] + "_" + str(i) + "." + sim_file_name[1], 'w') as o:
                 o.write(md_in_temp)
                 md_files.append(configs_directory + sim_file_name[0] + "_" + str(i) + "." + sim_file_name[1])
-
-
 
     ## generate run scripts
 
@@ -151,12 +149,12 @@ def main(args):
         print("too many input files for option s. Exiting.")
         exit()
 
-    runs_per_script = umbrellas//len(init_files)
+    runs_per_script = umbrellas // len(init_files)
     umbrellas = umbrellas + 1
     idx = 0
     for init_f in init_files:
         out = ""
-        while idx <= runs_per_script and idx <= umbrellas and idx + umbrellas*4 < len(md_files):
+        while idx <= runs_per_script and idx <= umbrellas and idx + umbrellas * 4 < len(md_files):
             b_name_min = basename(md_files[idx]).split('.')[0]
             run_min = \
                 "pmemd -O " \
@@ -165,8 +163,8 @@ def main(args):
                 "-p WT.prmtop " \
                 "-c {} " \
                 "-r umbrella_productions/{}.rst " \
-                "-inf umbrella_productions/{}.mdinfo \n"\
-                .format(md_files[idx],b_name_min, init_f,b_name_min, b_name_min)
+                "-inf umbrella_productions/{}.mdinfo \n" \
+                    .format(md_files[idx], b_name_min, init_f, b_name_min, b_name_min)
 
             b_name_rel_1 = basename(md_files[idx + umbrellas]).split('.')[0]
             run_rel_1 = \
@@ -177,10 +175,10 @@ def main(args):
                 "-c umbrella_productions/{}.rst " \
                 "-r umbrella_productions/{}.rst " \
                 "-inf umbrella_productions/{}.mdinfo " \
-                "-ref umbrella_productions/{}.rst \n"\
-                .format(md_files[idx + umbrellas], b_name_rel_1, b_name_min, b_name_rel_1, b_name_rel_1, b_name_min)
+                "-ref umbrella_productions/{}.rst \n" \
+                    .format(md_files[idx + umbrellas], b_name_rel_1, b_name_min, b_name_rel_1, b_name_rel_1, b_name_min)
 
-            b_name_rel_2 = basename(md_files[idx + umbrellas*2]).split('.')[0]
+            b_name_rel_2 = basename(md_files[idx + umbrellas * 2]).split('.')[0]
             run_rel_2 = \
                 "pmemd.cuda -O " \
                 "-i {} " \
@@ -189,10 +187,11 @@ def main(args):
                 "-c umbrella_productions/{}.rst " \
                 "-r umbrella_productions/{}.rst " \
                 "-inf umbrella_productions/{}.mdinfo " \
-                "-ref umbrella_productions/{}.rst \n"\
-                .format(md_files[idx + umbrellas*2], b_name_rel_2, b_name_rel_1, b_name_rel_2, b_name_rel_2, b_name_rel_1)
+                "-ref umbrella_productions/{}.rst \n" \
+                    .format(md_files[idx + umbrellas * 2], b_name_rel_2, b_name_rel_1, b_name_rel_2, b_name_rel_2,
+                            b_name_rel_1)
 
-            b_name_rel_3 = basename(md_files[idx + umbrellas*3]).split('.')[0]
+            b_name_rel_3 = basename(md_files[idx + umbrellas * 3]).split('.')[0]
             run_rel_3 = \
                 "pmemd.cuda -O " \
                 "-i {} " \
@@ -201,10 +200,11 @@ def main(args):
                 "-c umbrella_productions/{}.rst " \
                 "-r umbrella_productions/{}.rst " \
                 "-inf umbrella_productions/{}.mdinfo " \
-                "-ref umbrella_productions/{}.rst \n"\
-                .format(md_files[idx + umbrellas*3], b_name_rel_3, b_name_rel_2, b_name_rel_3, b_name_rel_3, b_name_rel_2)
+                "-ref umbrella_productions/{}.rst \n" \
+                    .format(md_files[idx + umbrellas * 3], b_name_rel_3, b_name_rel_2, b_name_rel_3, b_name_rel_3,
+                            b_name_rel_2)
 
-            b_name_prod = basename(md_files[idx + umbrellas*4]).split('.')[0]
+            b_name_prod = basename(md_files[idx + umbrellas * 4]).split('.')[0]
             run_prod = \
                 "pmemd.cuda -O " \
                 "-i {} " \
@@ -214,9 +214,10 @@ def main(args):
                 "-r umbrella_productions/{}.rst " \
                 "-inf umbrella_productions/{}.mdinfo " \
                 "-x umbrella_productions/{}.nc " \
-                "-ref umbrella_productions/{}.rst \n"\
-                .format(md_files[idx + umbrellas*4], b_name_prod, b_name_rel_3, b_name_prod, b_name_prod, b_name_prod, \
-                b_name_rel_3)
+                "-ref umbrella_productions/{}.rst \n" \
+                    .format(md_files[idx + umbrellas * 4], b_name_prod, b_name_rel_3, b_name_prod, b_name_prod,
+                            b_name_prod, \
+                            b_name_rel_3)
 
             out += "#{}\n".format(idx)
             idx += 1
@@ -238,6 +239,7 @@ def main(args):
             o.write(out)
         print(runs_per_script)
         runs_per_script *= 2
+
 
 if __name__ == '__main__':
     main(sys.argv)
