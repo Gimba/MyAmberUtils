@@ -160,7 +160,7 @@ def main(args):
 
     ## generate run scripts
 
-    init_files = args.init.split(',')
+    init_files = args.init.split(':')
     if args.s and len(init_files) > 1:
         print("too many input files for option s. Exiting.")
         exit()
@@ -169,6 +169,8 @@ def main(args):
     umbrellas = umbrellas + 1
     idx = 0
     for init_f in init_files:
+        top, traj = init_f.split(',')
+        traj_temp = traj
         out = ""
         while idx <= runs_per_script and idx <= umbrellas and idx + umbrellas * 4 < len(md_files):
             b_name_min = basename(md_files[idx]).split('.')[0]
@@ -176,35 +178,36 @@ def main(args):
                 "pmemd -O " \
                 "-i {} " \
                 "-o umbrella_productions/{}.out " \
-                "-p WT.prmtop " \
+                "-p {} " \
                 "-c {} " \
                 "-r umbrella_productions/{}.rst " \
                 "-inf umbrella_productions/{}.mdinfo \n" \
-                    .format(md_files[idx], b_name_min, init_f, b_name_min, b_name_min)
+                    .format(md_files[idx], b_name_min, top, traj_temp, b_name_min, b_name_min)
 
             b_name_rel_1 = basename(md_files[idx + umbrellas]).split('.')[0]
             run_rel_1 = \
                 "pmemd.cuda -O " \
                 "-i {} " \
                 "-o umbrella_productions/{}.out " \
-                "-p WT.prmtop " \
+                "-p {} " \
                 "-c umbrella_productions/{}.rst " \
                 "-r umbrella_productions/{}.rst " \
                 "-inf umbrella_productions/{}.mdinfo " \
                 "-ref umbrella_productions/{}.rst \n" \
-                    .format(md_files[idx + umbrellas], b_name_rel_1, b_name_min, b_name_rel_1, b_name_rel_1, b_name_min)
+                    .format(md_files[idx + umbrellas],top, b_name_rel_1, b_name_min, b_name_rel_1, b_name_rel_1, \
+                                                        b_name_min)
 
             b_name_rel_2 = basename(md_files[idx + umbrellas * 2]).split('.')[0]
             run_rel_2 = \
                 "pmemd.cuda -O " \
                 "-i {} " \
                 "-o umbrella_productions/{}.out " \
-                "-p WT.prmtop " \
+                "-p {} " \
                 "-c umbrella_productions/{}.rst " \
                 "-r umbrella_productions/{}.rst " \
                 "-inf umbrella_productions/{}.mdinfo " \
                 "-ref umbrella_productions/{}.rst \n" \
-                    .format(md_files[idx + umbrellas * 2], b_name_rel_2, b_name_rel_1, b_name_rel_2, b_name_rel_2,
+                    .format(md_files[idx + umbrellas * 2], b_name_rel_2, top, b_name_rel_1, b_name_rel_2, b_name_rel_2,
                             b_name_rel_1)
 
             b_name_rel_3 = basename(md_files[idx + umbrellas * 3]).split('.')[0]
@@ -212,12 +215,12 @@ def main(args):
                 "pmemd.cuda -O " \
                 "-i {} " \
                 "-o umbrella_productions/{}.out " \
-                "-p WT.prmtop " \
+                "-p {} " \
                 "-c umbrella_productions/{}.rst " \
                 "-r umbrella_productions/{}.rst " \
                 "-inf umbrella_productions/{}.mdinfo " \
                 "-ref umbrella_productions/{}.rst \n" \
-                    .format(md_files[idx + umbrellas * 3], b_name_rel_3, b_name_rel_2, b_name_rel_3, b_name_rel_3,
+                    .format(md_files[idx + umbrellas * 3], b_name_rel_3, top, b_name_rel_2, b_name_rel_3, b_name_rel_3,
                             b_name_rel_2)
 
             b_name_prod = basename(md_files[idx + umbrellas * 4]).split('.')[0]
@@ -225,13 +228,13 @@ def main(args):
                 "pmemd.cuda -O " \
                 "-i {} " \
                 "-o umbrella_productions/{}.out " \
-                "-p WT.prmtop " \
+                "-p {} " \
                 "-c umbrella_productions/{}.rst " \
                 "-r umbrella_productions/{}.rst " \
                 "-inf umbrella_productions/{}.mdinfo " \
                 "-x umbrella_productions/{}.nc " \
                 "-ref umbrella_productions/{}.rst \n" \
-                    .format(md_files[idx + umbrellas * 4], b_name_prod, b_name_rel_3, b_name_prod, b_name_prod,
+                    .format(md_files[idx + umbrellas * 4], b_name_prod, top, b_name_rel_3, b_name_prod, b_name_prod,
                             b_name_prod, \
                             b_name_rel_3)
 
@@ -240,7 +243,7 @@ def main(args):
             out += run_min + "\n" + run_rel_1 + "\n" + run_rel_2 + "\n" + run_rel_3 + "\n" + run_prod + "\n"
 
             if args.s:
-                init_f = "umbrella_productions/" + b_name_prod + ".rst"
+                traj_temp = "umbrella_productions/" + b_name_prod + ".rst"
 
         # write run script
         if args.s:
