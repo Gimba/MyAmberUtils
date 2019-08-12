@@ -19,7 +19,7 @@
 import sys, argparse
 import re
 from os.path import basename
-from atom_from_res import atom_from_res
+import pytraj as pt
 
 
 def main(args):
@@ -32,6 +32,8 @@ def main(args):
                         help='define weather the last frame of each simulation is used for the next one as a start. '
                              'In this case there should be only one init file')
     args = parser.parse_args()
+
+    pdb = pt.load('R2220Q.inpcrd', 'R2220Q.prmtop')
 
     umbrellas = int(args.umbrellas)
     configs_directory = "umbrella_config/"
@@ -52,9 +54,8 @@ def main(args):
         residues, angles, force = cnfg_arguments.split(':')
         angles = angles.split(',')
         angles = list(map(float, angles))
-        print(angles)
-
-        atoms = [atom_from_res('R2220Q.pdb', k, 'CA') for k in residues.split(',')]
+        print(residues)
+        atoms = [str(pt.select_atoms(':' + k + '@CA', pdb.top)[0]) for k in residues.split(',')]
         print(atoms)
         umbrella_config = []
         umbrella_config.append(atoms)
