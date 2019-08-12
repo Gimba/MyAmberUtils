@@ -27,8 +27,7 @@ def atom_from_res(pdb, res, atom_type):
                 res_column = 5
 
             if len(line) > 5 and line[res_column] == res and line[2] == atom_type:
-                print(' '.join(line))
-                print('Atom number: {}'.format(line[1]))
+                return line[1]
 
 
 def main(argv):
@@ -39,7 +38,9 @@ def main(argv):
 
     args = parser.parse_args()
 
-    atom_from_res(args.pdb, args.res, args.atom_type)
+    atom_number = atom_from_res(args.pdb, args.res, args.atom_type)
+
+    print('Atom number: {}'.format(atom_number))
 
 
 if __name__ == '__main__':
