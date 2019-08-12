@@ -77,9 +77,9 @@ def main(argv):
     energies = OrderedDict(sorted(energies.items()))
 
     if len(energies.items()) != len(angle_files):
-        print "Number of energies not equals number of found files!"
-        print "energies " + str(len(energies.items()))
-        print "angles " + str(len(angle_files))
+        print("Number of energies not equals number of found files!")
+        print("energies " + str(len(energies.items())))
+        print("angles " + str(len(angle_files)))
         return
 
     energies = [float(i[1].replace(',','.')) for i in energies.items()]

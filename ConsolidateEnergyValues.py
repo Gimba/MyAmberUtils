@@ -32,10 +32,10 @@ for key in data.keys():
 mutas = list(set(mutas))
 mutas = sorted(mutas)
 
-print mutas
+print(mutas)
 consolidated = {}
 for f in sorted(data.keys()):
-    print f
+    print(f)
     for muta in mutas:
         if muta in data[f].keys():
             if muta in consolidated.keys():
@@ -48,7 +48,7 @@ for f in sorted(data.keys()):
             else:
                 consolidated[muta] = ['', '', '']
 
-print consolidated
+print(consolidated)
 
 output = ","
 
@@ -62,4 +62,4 @@ for key in sorted(consolidated.keys()):
     output += ",".join(consolidated[key])
     output += "\n"
 
-print output
+print(output)
