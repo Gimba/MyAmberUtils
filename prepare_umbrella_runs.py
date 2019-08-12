@@ -49,7 +49,6 @@ def main(args):
         exit()
 
     print('Input file tuples: {}'.format(init_files))
-    pdb = pt.load(init_files[0].split(',')[1], init_files[0].split(',')[0])
 
     # angle increments contains the step size for every configuration
     angle_increments = []
@@ -65,6 +64,8 @@ def main(args):
         angles = angles.split(',')
         angles = list(map(float, angles))
         print(residues)
+        top, traj = i_file.split(',')
+        pdb = pt.load(traj, top)
         atoms = [str(pt.select_atoms(':' + k + '@CA', pdb.top)[0]) for k in residues.split(',')]
         print(atoms)
         umbrella_config = []
