@@ -19,6 +19,7 @@
 import sys, argparse
 import re
 from os.path import basename
+from os import mkdir
 import pytraj as pt
 
 
@@ -36,6 +37,11 @@ def main(args):
 
     umbrellas = int(args.umbrellas)
     configs_directory = "umbrella_config/"
+
+    try:
+        mkdir(configs_directory)
+    except OSError:
+        pass
 
     # there is possibly more than one angle that gets transformed
     residues_angles_force = args.raf.split('|')
