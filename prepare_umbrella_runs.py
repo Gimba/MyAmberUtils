@@ -27,19 +27,29 @@ def main(args):
     parser.add_argument('raf', help='list like: "residues_1,angle_1_from,angle_1_to,force_1:residues_2,angle_2_from,'
                                     'angle_2_to,force_2:..."')
     parser.add_argument('umbrellas', help='how many umbrella do we want to span?')
-    parser.add_argument('init', help='names of initial structures, e.g. "rel_3.rst,prod_1.rst"')
+    parser.add_argument('init', help='names of initial topologies and trajectories, '
+                                     'e.g. "WT.prmtop,rel_3.rst:WT.prmtop,prod_1.rst"')
     parser.add_argument('-s', action='store_true',
                         help='define weather the last frame of each simulation is used for the next one as a start. '
                              'In this case there should be only one init file')
     args = parser.parse_args()
-
-    pdb = pt.load('R2220Q.inpcrd', 'R2220Q.prmtop')
 
     umbrellas = int(args.umbrellas)
     configs_directory = "umbrella_config/"
 
     # there is possibly more than one angle that gets transformed
     residues_angles_force = args.raf.split('|')
+
+    init_files = args.init.split(':')
+
+    if len(init_files) != len(residues_angles_force):
+        print('Error: Number of input file tuples has to be same as sets of "residue angles force")')
+        print('init_files:', init_files, 'length', len(init_files))
+        print('residue_angles_force:', residues_angles_force, 'length', len(residues_angles_force))
+        exit()
+
+    print('Input file tuples: {}'.format(init_files))
+    pdb = pt.load(init_files[0].split(',')[1], init_files[0].split(',')[0])
 
     # angle increments contains the step size for every configuration
     angle_increments = []
@@ -48,10 +58,10 @@ def main(args):
     umbrella_configs = []
 
     # read input arguments into variables
-    for cnfg_arguments in residues_angles_force:
-        cnfg_arguments = re.sub('\'|\"', '', cnfg_arguments)
+    for raf, i_file in zip(residues_angles_force, init_files):
+        raf = re.sub('\'|\"', '', raf)
 
-        residues, angles, force = cnfg_arguments.split(':')
+        residues, angles, force = raf.split(':')
         angles = angles.split(',')
         angles = list(map(float, angles))
         print(residues)
