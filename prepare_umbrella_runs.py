@@ -18,7 +18,7 @@
 
 import sys, argparse
 import re
-from os.path import basename
+from os.path import basename, join
 from os import mkdir
 import pytraj as pt
 
@@ -30,6 +30,7 @@ def main(args):
     parser.add_argument('umbrellas', help='how many umbrella do we want to span?')
     parser.add_argument('init', help='names of initial topologies and trajectories, '
                                      'e.g. "WT.prmtop,rel_3.rst:WT.prmtop,prod_1.rst"')
+    parser.add_argument('sim_config_path', help='here can MD settings be found')
     parser.add_argument('-s', action='store_true',
                         help='define weather the last frame of each simulation is used for the next one as a start. '
                              'In this case there should be only one init file')
@@ -129,11 +130,13 @@ def main(args):
     ## generate simulation configurations with umbrella constraints
 
     # initial/template configuration files
-    sim_configuration_files = ['../min_1.umbin',
-                               '../rel_1.umbin',
-                               '../rel_2_25C.umbin',
-                               '../rel_3_25C.umbin',
-                               '../prod_25C.umbin']
+    sim_configuration_path = args.sim_config_path
+
+    sim_configuration_files = [join(sim_configuration_path,'min_1.umbin'),
+                               join(sim_configuration_path,'rel_1.umbin'),
+                               join(sim_configuration_path,'rel_2_25C.umbin'),
+                               join(sim_configuration_path,'rel_3_25C.umbin'),
+                               join(sim_configuration_path,'prod_25C.umbin')]
 
     md_files = []
     for init_f in sim_configuration_files:
