@@ -19,6 +19,7 @@
 import sys, argparse
 import re
 from os.path import basename
+from atom_from_res import atom_from_res
 
 
 def main(args):
@@ -49,12 +50,14 @@ def main(args):
         cnfg_arguments = re.sub('\'|\"', '', cnfg_arguments)
 
         residues, angles, force = cnfg_arguments.split(':')
-
         angles = angles.split(',')
-        angles = map(float, angles)
+        angles = list(map(float, angles))
+        print(angles)
 
+        atoms = [atom_from_res('R2220Q.pdb', k, 'CA') for k in residues.split(',')]
+        print(atoms)
         umbrella_config = []
-        umbrella_config.append(residues)
+        umbrella_config.append(atoms)
         umbrella_config.append(angles)
         umbrella_config.append(force)
         umbrella_configs.append(umbrella_config)
@@ -78,7 +81,7 @@ def main(args):
             out += " &rst\n"
 
             residues = umbrella_configs[i][0]
-            out += "  iat=" + residues + ",\n"
+            out += "  iat=" + ','.join(atoms) + ",\n"
 
             angle_low_bound = umbrella_configs[i][1][0] - 180
             angle = umbrella_configs[i][1][0]
@@ -108,11 +111,11 @@ def main(args):
     ## generate simulation configurations with umbrella constraints
 
     # initial/template configuration files
-    sim_configuration_files = ['/d/as2/u/rm001/InputFiles/sim_config/min_1.umbin',
-                               '/d/as2/u/rm001/InputFiles/sim_config/rel_1.umbin',
-                               '/d/as2/u/rm001/InputFiles/sim_config/rel_2_25C.umbin',
-                               '/d/as2/u/rm001/InputFiles/sim_config/rel_3_25C.umbin',
-                               '/d/as2/u/rm001/InputFiles/sim_config/prod_25C.umbin']
+    sim_configuration_files = ['../min_1.umbin',
+                               '../rel_1.umbin',
+                               '../rel_2_25C.umbin',
+                               '../rel_3_25C.umbin',
+                               '../prod_25C.umbin']
 
     md_files = []
     for init_f in sim_configuration_files:
