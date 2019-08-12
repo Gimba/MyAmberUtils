@@ -247,10 +247,10 @@ def main(args):
 
         # write run script
         if args.s:
-            script_file_name = 'init_WT_run_s_' + str(idx) + ".sh"
+            script_file_name = 'init_WT_run_s_' + str(idx-1) + ".sh"
 
         else:
-            script_file_name = 'init_' + basename(init_f).split('.')[0] + "_run_" + str(idx) + ".sh"
+            script_file_name = 'init_' + basename(init_f).split('.')[0] + "_run_" + str(idx-1) + ".sh"
 
         print(script_file_name)
         with open(script_file_name, "w") as o:
