@@ -17,15 +17,28 @@
 
 import numpy as np
 import argparse
+import sys
 
-data = []
-with open('dihedral_26,27,34,50.dat', 'r') as f:
-	for line in f.readlines():
-		line = line.split()
-		if len(line) == 2:
-			try:
-				data.append(float(line[1]))
-			except:
-				pass
-print(np.std(data))
-print(np.mean(data))
+
+def main(args):
+    parser = argparse.ArgumentParser(description='prints standard deviation, mean and median to standard out.')
+    parser.add_argument('file', help='file containing values in the second column')
+
+    args = parser.parse_args()
+
+    data = []
+    with open(args.file, 'r') as f:
+        for line in f.readlines():
+            line = line.split()
+            if len(line) == 2:
+                try:
+                    data.append(float(line[1]))
+                except:
+                    pass
+    print("Standard deviation: {:.2f}".format(np.std(data)))
+    print("Mean value: {:.2f}".format(np.mean(data)))
+    print("Mediar value: {:.2f}".format(np.median(data)))
+
+
+if __name__ == '__main__':
+    main(sys.argv)
