@@ -35,9 +35,13 @@ def main(args):
                     data.append(float(line[1]))
                 except:
                     pass
-    print("Standard deviation: {:.2f}".format(np.std(data)))
-    print("Mean value: {:.2f}".format(np.mean(data)))
-    print("Median value: {:.2f}".format(np.median(data)))
+    # print("Standard deviation: {:.2f}".format(np.std(data)))
+    # print("Mean value: {:.2f}".format(np.mean(data)))
+    # print("Median value: {:.2f}".format(np.median(data)))
+
+	print("{:.2f}".format(np.std(data)))
+    print("{:.2f}".format(np.mean(data)))
+    print("{:.2f}".format(np.median(data)))
 
 
 if __name__ == '__main__':
