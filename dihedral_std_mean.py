@@ -39,7 +39,7 @@ def main(args):
     # print("Mean value: {:.2f}".format(np.mean(data)))
     # print("Median value: {:.2f}".format(np.median(data)))
 
-	print("{:.2f}".format(np.std(data)))
+    print("{:.2f}".format(np.std(data)))
     print("{:.2f}".format(np.mean(data)))
     print("{:.2f}".format(np.median(data)))
 
