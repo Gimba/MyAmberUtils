@@ -24,7 +24,7 @@ import pytraj as pt
 
 def main(args):
     parser = argparse.ArgumentParser(description='Prepare config files for umbrella sampling run.')
-    parser.add_argument('raf', help='list like: "residues_1,angle_1_from,angle_1_to,force_1:residues_2,angle_2_from,'
+    parser.add_argument('raf', help='list like: "residues_1,angle_1_fromp,angle_1_to,force_1:residues_2,angle_2_from,'
                                     'angle_2_to,force_2:..."')
     parser.add_argument('umbrellas', help='how many umbrella do we want to span?')
     parser.add_argument('init', help='names of initial topologies and trajectories, '

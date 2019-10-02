@@ -27,15 +27,30 @@ __docformat__ = "restructuredtext en"
 
 
 def main(argv):
+    out = ""
     with open("./productions/mmpbsa_all_frames/frame_energies.csv", 'r') as f:
         with open("./productions/binding_site_distances.dat", 'r') as g:
-            f.readline()
-            f.readline()
-            f.readline()
-            
+
+            # skip lines until delta energies begin
+            line = ""
+            while 'DELTA' not in line:
+                line = f.readline()
+            print(line)
+            header_f = f.readline()
+            header_g = g.readline()
+            header_f = header_f.split(',')
+            header_g = header_g.split()
+            header = header_f[0] + ',' + ','.join(header_g[1:]) + ',' + header_f[-1]
+            out += header
             for energy, distances in zip(f.readlines(),g.readlines()):
-                print(energy, distances)
-                break
+                energy = energy.split(',')
+
+                distances = distances.split()
+                out += energy[0]+ ',' + ','.join(distances[1:]) + ',' + energy[-1]
+            print(out)
+            with open("./training_data_dist_energy.csv", "w") as o:
+                o.write(out)
+
 
 if __name__ == "__main__":
     main(sys.argv)
