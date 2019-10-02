@@ -35,7 +35,7 @@ def main(argv):
             line = ""
             while 'DELTA' not in line:
                 line = f.readline()
-            print(line)
+            # print(line)
             header_f = f.readline()
             header_g = g.readline()
             header_f = header_f.split(',')
@@ -47,7 +47,7 @@ def main(argv):
 
                 distances = distances.split()
                 out += energy[0]+ ',' + ','.join(distances[1:]) + ',' + energy[-1]
-            print(out)
+            # print(out)
             with open("./training_data_dist_energy.csv", "w") as o:
                 o.write(out)
 
