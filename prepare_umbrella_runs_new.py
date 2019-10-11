@@ -23,7 +23,7 @@ import pytraj as pt
 import numpy as np
 
 
-def generate_umb_config(angle, angle_low, angle_high, force, configs_directory, idx, atoms):
+def generate_umb_config(angle, angle_low, angle_high, force, idx, atoms):
     out = "Harmonic restraints\n"
     out += " &rst\n"
     out += "  iat=" + ','.join(atoms) + ",\n"
@@ -248,8 +248,7 @@ def main(args):
                     angle_high = angle + 180
                     force = umbrella_configs[i][2]
 
-                    out, meta_out_temp = generate_umb_config(angle, angle_low, angle_high, configs_directory, force,
-                                                             c, atoms)
+                    out, meta_out_temp = generate_umb_config(angle, angle_low, angle_high, force, c, atoms)
 
                     # write constraint file
                     umbrella_constraint_file_name = '{}umb_out_{}.dat'.format(configs_directory, c)
@@ -284,8 +283,7 @@ def main(args):
                     angle_low = angle - 180
                     angle_high = angle + 180
 
-                    out, meta_out_temp = generate_umb_config(angle, angle_low, angle_high, configs_directory, force,
-                                                             c, atoms)
+                    out, meta_out_temp = generate_umb_config(angle, angle_low, angle_high, force, c, atoms)
 
                     # write constraint file
                     umbrella_constraint_file_name = '{}umb_out_{}.dat'.format(configs_directory, c)
