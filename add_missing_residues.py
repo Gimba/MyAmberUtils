@@ -22,6 +22,7 @@ import sys
 import argparse
 import pytraj as pt
 import numpy as np
+from Bio import pairwise2
 
 res_codes = {}
 res_codes['ALA'] = 'A'
@@ -64,6 +65,7 @@ def main(args):
 
     residues = {}
     seqres = {}
+    last_res = 0
     with open(file, 'r') as f:
         for line in f.readlines():
             if line[:6] == 'SEQRES':
@@ -74,23 +76,19 @@ def main(args):
                     seqres[line[2]] = line[4:]
 
             if line[:4] == 'ATOM':
-                residues[line[21] + str(int(line[22:27]))] = line[17:20]
+                res_num = int(line[22:27])
+                if last_res != res_num:
+                    if line[21] in residues.keys():
+                        residues[line[21]].extend([line[17:20]])
+                    else:
+                        residues[line[21]] = [line[17:20]]
+                    last_res = res_num
 
-    chains = list(set([r[0] for r in residues.keys()]))
-
-    out = ''
-
-    for c in chains:
-        resids = [int(ri[1:]) for ri in residues.keys() if c == ri[0]]
-        missing = missing_elements(resids)
-
-        res_range = np.arange(min(resids), max(resids) - 1)
-
-        for resid in res_range:
-            if resid not in missing:
-                out += res_codes[residues[c + str(resid)]]
-            else:
-                out += '-'
+    for chain in seqres.keys():
+        seqres_code = ''.join([res_codes[rc1] for rc1 in seqres[chain]])
+        res_code = ''.join([res_codes[rc2] for rc2 in residues[chain]])
+        alignments = pairwise2.align.globalxx(seqres_code, res_code)
+        print(alignments[0][1])
 
 
 if __name__ == '__main__':
