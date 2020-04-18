@@ -53,6 +53,12 @@ res_codes['TRP'] = 'W'
 res_codes['TYR'] = 'Y'
 res_codes['VAL'] = 'V'
 
+chain_names = ''
+class MyModel(loopmodel):
+    def special_patches(self, aln):
+        # rename chains
+        for cn, sc in zip(chain_names, self.chains):
+            sc.name = cn
 
 def missing_elements(L):
     start, end = L[0], L[-1]
@@ -89,6 +95,12 @@ def main(args):
 
     sequence_with_gaps = ''
     fill = ''
+
+    # use global variable to store chain identifiers that get used in MyModel-special_patches; was not able to pass
+    # the chain names otherwise
+    global chain_names
+    chain_names = seqres.keys()
+    
     for chain in seqres.keys():
         seqres_code = ''.join([res_codes[rc1] for rc1 in seqres[chain]])
         seqres_code += '/'
@@ -135,8 +147,7 @@ def main(args):
         o.write(out)
 
     e.io.atom_files_directory = ['.', file]
-
-    a = loopmodel(e, alnfile=code + '.ali',
+    a = MyModel(e, alnfile=code + '.ali',
                   knowns=code, sequence=code + '-fill')
     a.starting_model = 1
     a.ending_model = 1
@@ -144,9 +155,8 @@ def main(args):
     a.loop.starting_model = 1
     a.loop.ending_model = 2
     a.loop.md_level = refine.fast
-
     a.make()
-
+    print(a.chains)
 
 if __name__ == '__main__':
     main(sys.argv)
