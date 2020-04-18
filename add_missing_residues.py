@@ -20,6 +20,8 @@ __docformat__ = "restructuredtext en"
 
 import sys
 import argparse
+import pytraj as pt
+
 
 def main(args):
     parser = argparse.ArgumentParser(description='Insert missing residue coordinates using Modeller')
@@ -27,10 +29,12 @@ def main(args):
     args = parser.parse_args()
 
     file = args.pdb_file
+
+    residues = {}
     with open(file, 'r') as f:
         for line in f.readlines():
-            if line[0:4] == 'ATOM':
-                print(line[22:27])
+            if line[:4] == 'ATOM':
+                residues[line[21] + str(int(line[22:27]))] = line[17:20]
 
 
 if __name__ == '__main__':
