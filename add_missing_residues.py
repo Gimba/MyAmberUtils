@@ -24,6 +24,7 @@ import pytraj as pt
 import numpy as np
 from Bio import pairwise2
 from modeller import *
+from modeller.automodel import *
 import re
 
 res_codes = {}
@@ -130,8 +131,21 @@ def main(args):
     out += 'sequence:::::::::\n'
     out += fill[:-1] + '*\n'
 
-    with open(file + '.ali', 'w') as o:
+    with open(code + '.ali', 'w') as o:
         o.write(out)
+
+    e.io.atom_files_directory = ['.', file]
+
+    a = loopmodel(e, alnfile=code + '.ali',
+                  knowns=code, sequence=code + '-fill')
+    a.starting_model = 1
+    a.ending_model = 1
+
+    a.loop.starting_model = 1
+    a.loop.ending_model = 2
+    a.loop.md_level = refine.fast
+
+    a.make()
 
 
 if __name__ == '__main__':
