@@ -20,7 +20,6 @@ __docformat__ = "restructuredtext en"
 
 import sys
 import argparse
-import pytraj as pt
 import numpy as np
 from Bio import pairwise2
 from modeller import *
