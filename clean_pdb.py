@@ -29,8 +29,10 @@ def main(args):
     file = args.pdb_file
     residues = {}
     # seqres = {}
+    out = []
     with open(file, 'r') as f:
         for line in f.readlines():
+            out.append(line)
             # if line[:6] == 'SEQRES':
             #     line = line.split()
             #     if line[2] in seqres.keys():
@@ -43,10 +45,31 @@ def main(args):
                     residues[line[21]].extend([line[22:27]])
                 else:
                     residues[line[21]] = [line[22:27]]
+
     for k, v in residues.items():
         v = list(set(v))
         v = sorted(v, key=lambda x: (int(x[:-1]), x[-1]))
         residues[k] = v
+
+    mapping = reindex_ABC_residues(residues)
+
+    new_out = ''
+    with open('test', 'w') as o:
+        outer_counter = 0
+        for lo in out:
+            if lo[:4] == 'ATOM':
+                residue = lo[22:27].strip()
+                chain = lo[21]
+                mapping_key = chain + residue
+                new_resid = str(mapping[mapping_key]).rjust(4) + ' '
+
+                new_out += lo[:22] + new_resid + lo[27:]
+
+                outer_counter += 1
+            else:
+                new_out += lo
+
+    print(new_out)
 
 
 if __name__ == '__main__':
