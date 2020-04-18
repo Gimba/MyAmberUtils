@@ -19,7 +19,7 @@ __author__ = 'Martin Rosellen'
 __docformat__ = "restructuredtext en"
 
 import sys
-
+import argparse
 
 def main(args):
     parser = argparse.ArgumentParser(description='Insert missing residue coordinates using Modeller')
@@ -29,7 +29,8 @@ def main(args):
     file = args.pdb_file
     with open(file, 'r') as f:
         for line in f.readlines():
-            pass
+            if line[0:4] == 'ATOM':
+                print(line[22:27])
 
 
 if __name__ == '__main__':
