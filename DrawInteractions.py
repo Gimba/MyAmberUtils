@@ -220,7 +220,7 @@ def remove_single_column(col_ids, cols, energies):
 
 
 def write_summary_file(summary, col_ids, cols, energies, locations):
-    with open(summary, 'wb') as fo:
+    with open(summary, 'w') as fo:
         writer = csv.writer(fo, delimiter=',')
         writer.writerow(['Column', 'Chain', 'Residue', 'Total'])
         for col_id in col_ids:
@@ -260,6 +260,7 @@ def plot_interactions(col_ids, cols, ctx, energies, hbonds, surface, negatives, 
     # Plot the interactions
     for k, v in energies.items():
         (r1, r2, e) = v
+        print(r1,r2,e)
         colour = 'red' if r1 + r2 in hbonds else 'black'
         dashed = (r1 + r2 in negatives)
         connect_residue(ctx, locations[r1], locations[r2], abs(e), colour, dashed, ann_biggest)
@@ -278,7 +279,7 @@ def read_hbond_file(hbond_file, energies, hbonds, thresh):
                     key = row[0] + row[1]
 
                 if key not in energies:
-                    print('Warning: hbond between %s and %s but no corresponding energy value.') % (row[0], row[1])
+                    print('Warning: hbond between {} and {} but no corresponding energy value.'.format(row[0], row[1]))
                 else:
                     hbonds[key] = row[2]
 

@@ -19,8 +19,8 @@ def main(args):
             else:
                 line = line.split()
                 frame = line[0]
-                values = float(line[1])
-                all_values.append(values)
+                value = float(line[1])
+                all_values.append(value)
     print(np.mean(all_values))
 
 if __name__ == '__main__':
