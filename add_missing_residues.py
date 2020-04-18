@@ -23,6 +23,11 @@ import argparse
 import pytraj as pt
 
 
+def missing_elements(L):
+    start, end = L[0], L[-1]
+    return sorted(set(range(start, end + 1)).difference(L))
+
+
 def main(args):
     parser = argparse.ArgumentParser(description='Insert missing residue coordinates using Modeller')
     parser.add_argument('pdb_file', help='pdb_file with missing residues')
@@ -35,6 +40,11 @@ def main(args):
         for line in f.readlines():
             if line[:4] == 'ATOM':
                 residues[line[21] + str(int(line[22:27]))] = line[17:20]
+    chains = list(set([r[0] for r in residues.keys()]))
+
+    for c in chains:
+        resids = [int(ri[1:]) for ri in residues.keys() if c == ri[0]]
+        print(c, missing_elements(resids))
 
 
 if __name__ == '__main__':
