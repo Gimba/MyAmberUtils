@@ -69,7 +69,7 @@ def main(args):
             else:
                 new_out += lo
 
-    print(new_out)
+        o.write(new_out)
 
 
 if __name__ == '__main__':
