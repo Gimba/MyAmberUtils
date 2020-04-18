@@ -24,6 +24,7 @@ import pytraj as pt
 import numpy as np
 from Bio import pairwise2
 from modeller import *
+import re
 
 res_codes = {}
 res_codes['ALA'] = 'A'
@@ -95,6 +96,10 @@ def main(args):
         alignments = pairwise2.align.globalxx(seqres_code, res_code)
         sequence_with_gaps += alignments[0][1]
         fill += seqres_code
+
+    # add line breaks after 75 characters
+    sequence_with_gaps = re.sub("(.{75})", "\\1\n", sequence_with_gaps, 0, re.DOTALL)
+    fill = re.sub("(.{75})", "\\1\n", fill, 0, re.DOTALL)
 
     # Get the sequence of the 1qg8 PDB file, and write to an alignment file
     code = file
