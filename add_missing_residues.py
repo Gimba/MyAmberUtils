@@ -100,6 +100,18 @@ def main(args):
     aln.append_model(m, align_codes=code)
     aln.write(file=code + '.seq')
 
+    ## modeller does some reordering of the chains which is not optimal if we want to do an alignment
+    # seqres_modeller = ''
+    # with open(code + '.seq') as k:
+    #     for line in k.readlines()[3:]:
+    #         seqres_modeller += line.strip('\n')
+
+    # extract header from modeller sequence file
+    out = ''
+    with open(code + '.seq') as k:
+        for line in k.readlines()[:3]:
+            out += line
+
 
 if __name__ == '__main__':
     main(sys.argv)
