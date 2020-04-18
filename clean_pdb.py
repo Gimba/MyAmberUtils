@@ -54,7 +54,7 @@ def main(args):
     mapping = reindex_ABC_residues(residues)
 
     new_out = ''
-    with open('test', 'w') as o:
+    with open(file.split('.')[0] + '_cleaned.pdb', 'w') as o:
         outer_counter = 0
         for lo in out:
             if lo[:4] == 'ATOM':
