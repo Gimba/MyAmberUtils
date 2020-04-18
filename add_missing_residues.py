@@ -85,11 +85,16 @@ def main(args):
                         residues[line[21]] = [line[17:20]]
                     last_res = res_num
 
+    sequence_with_gaps = ''
+    fill = ''
     for chain in seqres.keys():
         seqres_code = ''.join([res_codes[rc1] for rc1 in seqres[chain]])
+        seqres_code += '/'
         res_code = ''.join([res_codes[rc2] for rc2 in residues[chain]])
+        res_code += '/'
         alignments = pairwise2.align.globalxx(seqres_code, res_code)
-        print(alignments[0][1])
+        sequence_with_gaps += alignments[0][1]
+        fill += seqres_code
 
     # Get the sequence of the 1qg8 PDB file, and write to an alignment file
     code = file
@@ -111,7 +116,6 @@ def main(args):
     with open(code + '.seq') as k:
         for line in k.readlines()[:3]:
             out += line
-
 
 if __name__ == '__main__':
     main(sys.argv)
