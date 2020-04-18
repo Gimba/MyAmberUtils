@@ -22,7 +22,9 @@ import sys
 
 
 def main(args):
-    pass
+    parser = argparse.ArgumentParser(description='Insert missing residue coordinates using Modeller')
+    parser.add_argument('pdb_file', help='pdb_file with missing residues')
+    args = parser.parse_args()
 
 
 if __name__ == '__main__':
