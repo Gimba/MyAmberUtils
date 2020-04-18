@@ -130,6 +130,9 @@ def main(args):
     out += 'sequence:::::::::\n'
     out += fill[:-1] + '*\n'
 
+    with open(file + '.ali', 'w') as o:
+        o.write(out)
+
 
 if __name__ == '__main__':
     main(sys.argv)
