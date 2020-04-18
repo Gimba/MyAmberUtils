@@ -26,6 +26,11 @@ def main(args):
     parser.add_argument('pdb_file', help='pdb_file with missing residues')
     args = parser.parse_args()
 
+    file = args.pdb_file
+    with open(file, 'r') as f:
+        for line in f.readlines():
+            pass
+
 
 if __name__ == '__main__':
     main(sys.argv)
