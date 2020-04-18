@@ -22,6 +22,32 @@ import sys
 import argparse
 import pytraj as pt
 
+res_codes = {}
+res_codes['ALA'] = 'A'
+res_codes['ARG'] = 'R'
+res_codes['ASN'] = 'N'
+res_codes['ASP'] = 'D'
+res_codes['CYS'] = 'C'
+res_codes['CYX'] = 'C'
+res_codes['GLU'] = 'E'
+res_codes['GLN'] = 'Q'
+res_codes['GLY'] = 'G'
+res_codes['HIS'] = 'H'
+res_codes['HIE'] = 'H'
+res_codes['HID'] = 'H'
+res_codes['HIP'] = 'H'
+res_codes['ILE'] = 'I'
+res_codes['LEU'] = 'L'
+res_codes['LYS'] = 'K'
+res_codes['MET'] = 'M'
+res_codes['PHE'] = 'F'
+res_codes['PRO'] = 'P'
+res_codes['SER'] = 'S'
+res_codes['THR'] = 'T'
+res_codes['TRP'] = 'W'
+res_codes['TYR'] = 'Y'
+res_codes['VAL'] = 'V'
+
 
 def missing_elements(L):
     start, end = L[0], L[-1]
