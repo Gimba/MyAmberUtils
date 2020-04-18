@@ -23,6 +23,7 @@ import argparse
 import pytraj as pt
 import numpy as np
 from Bio import pairwise2
+from modeller import *
 
 res_codes = {}
 res_codes['ALA'] = 'A'
@@ -89,6 +90,15 @@ def main(args):
         res_code = ''.join([res_codes[rc2] for rc2 in residues[chain]])
         alignments = pairwise2.align.globalxx(seqres_code, res_code)
         print(alignments[0][1])
+
+    # Get the sequence of the 1qg8 PDB file, and write to an alignment file
+    code = file
+
+    e = environ()
+    m = model(e, file=code)
+    aln = alignment(e)
+    aln.append_model(m, align_codes=code)
+    aln.write(file=code + '.seq')
 
 
 if __name__ == '__main__':
