@@ -7,12 +7,15 @@ def reindex_ABC_residues(lst):
     clean_list = []
     index_increment = 0
     for k in lst:
+        k = k.strip()
         if k.isdecimal():
             clean_list.append(int(k) + index_increment)
 
         else:
             index_increment += 1
-            res_id = int(re.findall(r'\d+', k)[0]) + index_increment
+            res_id = int(re.findall(r'\d+', k)[0])
+            res_id_new = res_id + index_increment
+            print('replaced',k,'with',res_id_new)
             clean_list.append(res_id)
     return clean_list
 
