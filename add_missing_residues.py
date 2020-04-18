@@ -63,8 +63,16 @@ def main(args):
     file = args.pdb_file
 
     residues = {}
+    seqres = {}
     with open(file, 'r') as f:
         for line in f.readlines():
+            if line[:6] == 'SEQRES':
+                line = line.split()
+                if line[2] in seqres.keys():
+                    seqres[line[2]].extend(line[4:])
+                else:
+                    seqres[line[2]] = line[4:]
+
             if line[:4] == 'ATOM':
                 residues[line[21] + str(int(line[22:27]))] = line[17:20]
 
@@ -83,6 +91,7 @@ def main(args):
                 out += res_codes[residues[c + str(resid)]]
             else:
                 out += '-'
+
 
 if __name__ == '__main__':
     main(sys.argv)
