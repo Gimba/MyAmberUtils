@@ -3,21 +3,22 @@ import argparse
 import re
 
 
-def reindex_ABC_residues(lst):
-    clean_list = []
-    index_increment = 0
-    for k in lst:
-        k = k.strip()
-        if k.isdecimal():
-            clean_list.append(int(k) + index_increment)
+def reindex_ABC_residues(dct):
+    mapping = {}
 
-        else:
-            index_increment += 1
-            res_id = int(re.findall(r'\d+', k)[0])
-            res_id_new = res_id + index_increment
-            print('replaced',k,'with',res_id_new)
-            clean_list.append(res_id)
-    return clean_list
+    for k, v in dct.items():
+        index_increment = 0
+        for res in v:
+            res = res.strip()
+            if res.isdecimal():
+                mapping[str(k) + str(res)] = int(res) + index_increment
+            else:
+                index_increment += 1
+                res_id = int(re.findall(r'\d+', res)[0])
+                res_id_new = res_id + index_increment
+                print('replaced', res, 'with', res_id_new)
+                mapping[str(k) + str(res)] = res_id_new
+    return mapping
 
 
 def main(args):
