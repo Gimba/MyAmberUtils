@@ -113,9 +113,18 @@ def main(args):
 
     # extract header from modeller sequence file
     out = ''
+    header = []
     with open(code + '.seq') as k:
         for line in k.readlines()[:3]:
-            out += line
+            header.append(line)
+
+    out += ''.join(header)
+    out += sequence_with_gaps[:-1] + '*\n'
+    out += "\n\n"
+    out += header[1].strip('\n') + '-fill\n'
+    out += 'sequence:::::::::\n'
+    out += fill[:-1] + '*\n'
+
 
 if __name__ == '__main__':
     main(sys.argv)
