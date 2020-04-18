@@ -21,6 +21,7 @@ __docformat__ = "restructuredtext en"
 import sys
 import argparse
 import pytraj as pt
+import numpy as np
 
 res_codes = {}
 res_codes['ALA'] = 'A'
@@ -66,12 +67,22 @@ def main(args):
         for line in f.readlines():
             if line[:4] == 'ATOM':
                 residues[line[21] + str(int(line[22:27]))] = line[17:20]
+
     chains = list(set([r[0] for r in residues.keys()]))
+
+    out = ''
 
     for c in chains:
         resids = [int(ri[1:]) for ri in residues.keys() if c == ri[0]]
-        print(c, missing_elements(resids))
+        missing = missing_elements(resids)
 
+        res_range = np.arange(min(resids), max(resids) - 1)
+
+        for resid in res_range:
+            if resid not in missing:
+                out += res_codes[residues[c + str(resid)]]
+            else:
+                out += '-'
 
 if __name__ == '__main__':
     main(sys.argv)
