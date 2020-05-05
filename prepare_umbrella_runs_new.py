@@ -151,8 +151,7 @@ def main(args):
     parser.add_argument('-s', action='store_true',
                         help='define weather the last frame of each simulation is used for the next one as a start. '
                              'In this case there should be only one init file.')
-    args = parser.parse_args()
-
+p
     umbrellas = int(args.umbrellas)
     configs_directory = "umbrella_config/"
 

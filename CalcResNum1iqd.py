@@ -51,15 +51,25 @@ def main(argv):
     parser = argparse.ArgumentParser(description='Convert a given residue number from 1iqd.pdb '
                                                  'to '
                                                  'range of mutated pdb (e.g. 1-156 to 2174-2329 for C domain)')
-    parser.add_argument('number', help='Residue number separated by whitespace that will be converted')
+    parser.add_argument('number', help='Residue number separated by comma that will be converted')
     # parser.add_argument('chain', nargs='?', help='chain')
 
     args = parser.parse_args()
 
-    if args.number[0].isalpha():
-        convert_chain(args.number)
+    input_numbers = args.number.split(',')
+    if len(input_numbers) > 1:
+        for num in input_numbers:
+            if num.isalpha():
+                convert_chain(num)
+            else:
+                convert(num)
+
     else:
-        convert(args.number)
+        input_number = input_numbers[0]
+        if input_numbers[0].isalpha():
+            convert_chain(input_number)
+        else:
+            convert(input_number)
 
 def convert_chain(number):
     chain = number[0]
@@ -116,15 +126,15 @@ def convert(number):
 
     residues = {}
 
-    with open('/d/as2/u/rm001/InputFiles/1iqd_residues.dat', 'r') as f:
-        content = f.readlines()
-        for line in content:
-            temp = line.split()
-
-            name = temp[1] + temp[2]
-            residues[name] = temp[0]
-
-    print(res_codes[residues[out]] + out[1:])
+    # with open('/d/as2/u/rm001/InputFiles/1iqd_residues.dat', 'r') as f:
+    #     content = f.readlines()
+    #     for line in content:
+    #         temp = line.split()
+    #
+    #         name = temp[1] + temp[2]
+    #         residues[name] = temp[0]
+    #
+    # print(res_codes[residues[out]] + out[1:])
 
     return str(out)
 
