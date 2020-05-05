@@ -116,7 +116,7 @@ def generate_run_script(md_files, top, traj):
             .format(md_files['rel_3_25C'], b_name_rel_3, top, b_name_rel_2, b_name_rel_3, b_name_rel_3,
                     b_name_rel_2)
 
-    b_name_prod = basename(md_files['prod_25C']).split('.')[0]
+    b_name_prod = basename(md_files['prod_25C_8ns']).split('.')[0]
     run_prod = \
         "pmemd.cuda -O " \
         "-i {} " \
@@ -127,7 +127,7 @@ def generate_run_script(md_files, top, traj):
         "-inf umbrella_productions/{}.mdinfo " \
         "-x umbrella_productions/{}.nc " \
         "-ref umbrella_productions/{}.rst \n" \
-            .format(md_files['prod_25C'], b_name_prod, top, b_name_rel_3, b_name_prod, b_name_prod,
+            .format(md_files['prod_25C_8ns'], b_name_prod, top, b_name_rel_3, b_name_prod, b_name_prod,
                     b_name_prod, \
                     b_name_rel_3)
 
@@ -168,7 +168,7 @@ def main(args):
                                join(sim_configuration_path, 'rel_1.umbin'),
                                join(sim_configuration_path, 'rel_2_25C.umbin'),
                                join(sim_configuration_path, 'rel_3_25C.umbin'),
-                               join(sim_configuration_path, 'prod_25C.umbin')]
+                               join(sim_configuration_path, 'prod_25C_8ns.umbin')]
 
     # there is possibly more than one angle that gets transformed
     residues_angles_force = args.raf.split('|')
@@ -226,7 +226,7 @@ def main(args):
 
     if init_value:
         init_value = float(init_value)
-        if init_value < angles[0] or init_value > angles[1]:
+        if False:
             print('Error: init value must lie between min and max angle value')
             exit()
         else:
@@ -275,7 +275,7 @@ def main(args):
                     c -= 1
                 # reset to init value
                 angle = init_value + angle_increments[i]
-                c = 0
+                c = 1
                 next_traj = init_relaxed
 
                 # go up
